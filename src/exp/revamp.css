@@ -1,0 +1,163 @@
+/* ================= Experiment: revamp (Home first) =================
+   Direction: pearl ground, one soft light, big quiet type, the interface appears for the moment.
+   Shell (top bar, ask bar) applies everywhere; the layout below is Home only. */
+html.rv {
+  --rv-ground: #f2f2f4; --rv-ink: #111113; --rv-ink-2: #55555c; --rv-ink-3: #6b6b73; --rv-hair: rgba(17,17,19,.08);
+  --rv-glass: rgba(255,255,255,.8); --rv-glass-2: rgba(255,255,255,.62);
+  --rv-ring: 0 0 0 1px rgba(17,17,19,.06);
+  --rv-lift: 0 0 0 1px rgba(17,17,19,.06), 0 2px 4px rgba(17,17,19,.04), 0 30px 60px -20px rgba(60,40,90,.22);
+  --rv-live: #2f6bff; --rv-needs: #e0892b; --rv-gain: #1d7a4a;
+  --font-sans: "Inter", "Geist", system-ui, sans-serif; --font: var(--font-sans);
+  --text-1: var(--rv-ink); --ink: var(--rv-ink); --text-2: var(--rv-ink-2); --ink-2: var(--rv-ink-2); --text-3: var(--rv-ink-3); --ink-3: var(--rv-ink-3);
+  --chrome: var(--rv-ground); --surface-0: var(--rv-ground); --action: var(--rv-ink);
+}
+html.rv body { background: var(--rv-ground); font-family: var(--font-sans); letter-spacing: -.005em; }
+
+/* ---------- shell: the sidebar becomes one line of words ---------- */
+@media (min-width: 961px) {
+html.rv .app { flex-direction: column; gap: 0; padding: 0; position: relative; }
+html.rv .nav { width: auto; height: 68px; flex-direction: row; align-items: center; gap: 20px; padding: 0 200px 0 40px; position: relative; z-index: 20; }
+html.rv .org { padding: 0; gap: 10px; flex: none; }
+html.rv .org-logo { display: none; }
+html.rv #orgName { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+html.rv .org small { display: none; }
+html.rv .tree { flex: 1; flex-direction: row; align-items: center; justify-content: center; gap: 4px; overflow: visible; min-height: 0; }
+html.rv .tree .nav-h, html.rv .tree .nav-sp, html.rv .tree .chev, html.rv .tree .go svg.i, html.rv .tree .go .n:not(:has(.nav-att)) { display: none; }
+html.rv .tr { min-height: 0; background: none !important; box-shadow: none !important; padding: 0 !important; }
+html.rv .tr .go { padding: 8px 9px; gap: 6px; font-size: 15px; color: var(--rv-ink-3); border-radius: 18px; }
+html.rv .tr .go .lab { overflow: visible; }
+html.rv .tr:hover .go { color: var(--rv-ink); }
+html.rv .tr.cur .go { color: var(--rv-ink); font-weight: 500; }
+html.rv .nav-att { min-width: 8px; width: 8px; height: 8px; padding: 0; border-radius: 50%; font-size: 0; background: var(--rv-needs); box-shadow: none; }
+html.rv .projsw { width: auto; height: 34px; padding: 0 12px; margin: 0 10px; border-radius: 17px; background: rgba(17,17,19,.05); border: 0; box-shadow: none; font-size: 15px; gap: 6px; }
+html.rv .projsw .pic { display: none; }
+html.rv #setupSlot { position: fixed; left: 24px; bottom: 28px; width: 220px; z-index: 30; }
+html.rv #setupSlot .setup-card { border: 0; border-radius: 20px; padding: 14px 16px; background: var(--rv-glass); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: var(--rv-ring); }
+
+/* the top-right cluster joins the same line */
+html.rv .main { gap: 0; padding: 0; }
+html.rv .top { position: absolute; top: 16px; right: 40px; height: 36px; z-index: 21; width: auto; }
+html.rv .top .navt, html.rv .top .crumb { display: none; }
+html.rv .top .ask { width: 36px; max-width: none; padding: 0; justify-content: center; border-radius: 18px; border: 0; background: rgba(17,17,19,.05); }
+html.rv .top .ask .grow, html.rv .top .ask .kbd { display: none; }
+html.rv .top-r { flex: none; }
+html.rv .me-top { border: 0; padding: 0; background: none; box-shadow: none; }
+html.rv .me-top > div { display: none; }
+}
+
+/* HF1: one presence, one ask bar, bottom centre */
+html.rv #bell.hfbtn { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 40; width: min(560px, calc(100vw - 32px)); height: 60px; padding: 0 12px 0 11px; gap: 14px; border: 0; border-radius: 30px;
+  background: var(--rv-glass); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); box-shadow: 0 0 0 1px rgba(17,17,19,.07), 0 18px 40px -16px rgba(40,40,80,.28); }
+html.rv #bell .hfbtn-o { width: 38px; height: 38px; }
+html.rv #bell .hfbtn-o .hfo-w, html.rv #bell .hfbtn-o .hfo, html.rv #bell .hfbtn-o canvas { width: 38px !important; height: 38px !important; }
+html.rv #bell .hfbtn-l { flex: 1; font-size: 0; color: var(--rv-ink-3); font-weight: 400; text-align: left; }
+html.rv #bell .kbd { font-size: 15px; padding: 4px 10px; border: 0; border-radius: 10px; background: rgba(17,17,19,.05); color: var(--rv-ink-3); }
+
+/* the content window loses its frame and sits on the ground */
+html.rv .area { border: 0; border-radius: 0; background: transparent; }
+html.rv .wallp { background: var(--rv-ground); }
+html.rv .wallp::after { display: none; }
+html.rv .wallp .b1 { width: 60%; height: 84%; left: auto; right: -8%; top: 4%; background: #ffc9a8; opacity: .5; filter: blur(90px); }
+html.rv .wallp .b2 { width: 44%; height: 70%; right: 16%; top: 24%; background: #c4bcff; opacity: .5; filter: blur(90px); }
+html.rv .wallp .b3 { width: 40%; height: 60%; right: 34%; bottom: auto; top: -18%; background: #b8dcff; opacity: .5; filter: blur(90px); }
+html.rv .wallp .b4 { display: none; }
+
+/* ---------- Home: welcome and activity left, queue and widgets right ---------- */
+html.rv .desk-in { max-width: 1280px; padding: 40px 40px 160px; flex-direction: row; align-items: flex-start; gap: 64px; }
+html.rv .rv-left { flex: 1 1 400px; min-width: 0; position: sticky; top: 40px; display: flex; flex-direction: column; gap: 44px; padding-top: 8px; }
+html.rv .desk-grid { flex: 1 1 560px; max-width: 640px; min-width: 0; display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+html.rv .rv-left .desk-acts { position: static; margin-top: -20px; }
+html.rv .rv-left .desk-edit { width: auto; height: 36px; padding: 0 14px; gap: 8px; border-radius: 18px; border: 0; background: rgba(17,17,19,.05); box-shadow: none; display: inline-flex; align-items: center; color: var(--rv-ink-2); font-size: 15px; }
+html.rv .rv-left .desk-edit::after { content: "Customise Home"; }
+html.rv .rv-left .desk-edit svg.i { width: 16px; height: 16px; }
+
+html.rv .greet small { font-size: 15px; color: var(--rv-ink-3); }
+html.rv .greet h1 { margin-top: 18px; font-size: 56px; line-height: 1.03; font-weight: 500; letter-spacing: -.04em; color: var(--rv-ink); text-wrap: balance; }
+html.rv .greet-sub { margin-top: 4px; font-size: 56px; line-height: 1.03; font-weight: 500; letter-spacing: -.04em; color: #8a8a92; display: block; }
+html.rv .greet-sub .gs-sep, html.rv .greet-sub .gs-streak { display: none; }
+html.rv .ux-since { margin-top: 36px; height: auto; padding: 0; border: 0; background: none; box-shadow: none; gap: 14px; font-size: 16px; color: var(--rv-ink-2); }
+html.rv .ux-go { font-size: 15px; }
+
+/* Happening now: a quiet list with hairlines */
+html.rv .ap2 { margin: 0; padding: 0; }
+html.rv .ap2-h { font-size: 15px; color: var(--rv-ink-3); margin-bottom: 10px; }
+html.rv .ap2-h b { font-weight: 400; }
+html.rv .ap2-l li { padding: 12px 0; border-top: 1px solid var(--rv-hair); font-size: 16px; color: var(--rv-ink); opacity: 1 !important; }
+html.rv .ap2-l li:last-child { border-bottom: 1px solid var(--rv-hair); }
+html.rv .ap2-l li b { font-weight: 500; }
+html.rv .ap2-av, html.rv .ap2-av .av { width: 28px !important; height: 28px !important; }
+
+/* ---------- the queue card ---------- */
+html.rv .stackcol { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 18px; row-gap: 0; }
+html.rv .stack { grid-column: 1; min-width: 0; width: 100%; height: 548px; }
+html.rv .rv-dots { grid-column: 2; grid-row: 1; }
+html.rv .qc { height: 520px; border-radius: 32px; padding: 28px 28px 24px; gap: 22px; background: var(--rv-glass); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border: 0; box-shadow: var(--rv-lift); }
+html.rv .qc.behind { background: rgba(255,255,255,.55); box-shadow: var(--rv-ring); }
+html.rv .qc-h { align-items: flex-start; gap: 12px; }
+html.rv .qc-h > .av { width: 40px !important; height: 40px !important; }
+html.rv .qc-h .who b { font-size: 16px; font-weight: 500; }
+html.rv .qc-h .who small, html.rv .qc-h .rv-want { display: block; margin-top: 2px; font-size: 15px; color: var(--rv-ink-3); }
+html.rv .qc-h .who .qpath { display: none; }
+html.rv .qc-later, html.rv .qc .qc-more { display: none !important; }
+html.rv .rv-more { margin-left: auto; width: 36px; height: 36px; flex: none; border-radius: 50%; background: rgba(17,17,19,.05); display: grid; place-items: center; transition: background-color .15s ease; }
+html.rv .rv-more:hover { background: rgba(17,17,19,.09); }
+html.rv .rv-more svg { width: 18px; height: 4px; fill: #3d3d44; }
+html.rv .qc h3 { font-size: 30px; line-height: 1.14; font-weight: 500; letter-spacing: -.03em; }
+html.rv .qc .why { margin: 0; font-size: 17px; line-height: 1.5; color: var(--rv-ink-2); }
+html.rv .qc .ev.art { padding: 4px 20px; border-radius: 20px; background: rgba(17,17,19,.035); -webkit-mask-image: none; mask-image: none; flex: 0 1 auto; }
+html.rv .qc .ev.art .art-k { display: none; }
+html.rv .qc .ev-tab > div { border-color: rgba(17,17,19,.07); }
+html.rv .qc .ev-tab span, html.rv .qc .ev-tab b { font-size: 16px; }
+html.rv .qc .ev-tab small { font-size: 15px; color: var(--rv-ink-3); }
+html.rv .qc-f { margin-top: auto; align-items: center; gap: 10px; flex-wrap: nowrap; }
+html.rv .qc-f .qgain { margin: 0 auto 0 0; padding: 0; background: none; border: 0; display: flex; align-items: baseline; gap: 8px; }
+html.rv .qc-f .qgain .qg-v { font-size: 22px; font-weight: 600; letter-spacing: -.02em; color: var(--rv-gain); }
+html.rv .qc-f .qgain .qg-l { font-size: 15px; color: var(--rv-ink-3); }
+html.rv .qc-f .qgain .qg-l small { display: none; }
+html.rv .qb { height: 50px; border-radius: 25px; font-size: 16px; font-weight: 500; }
+html.rv .qc-f .qb.back { border: 0; background: rgba(17,17,19,.06); color: var(--rv-ink); padding: 0 22px; }
+html.rv .qc-f .qb.back svg.i, html.rv .qc-f .qb.ok svg.i { display: none; }
+html.rv .qb.ok { padding: 0 28px; background: var(--rv-ink); border: 0; box-shadow: 0 10px 24px -10px rgba(17,17,19,.6); }
+html.rv .qkeys { display: none; }
+
+/* queue position, as dots on the right of the card */
+html.rv .rv-dots { display: flex; flex-direction: column; gap: 7px; flex: none; }
+html.rv .rv-dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(17,17,19,.2); transition: height .22s cubic-bezier(.23,1,.32,1), background-color .22s ease; }
+html.rv .rv-dots i.cur { height: 22px; background: var(--rv-ink); }
+html.rv .rv-dots i.done { background: rgba(17,17,19,.45); }
+
+/* the "…" menu */
+.rv-menu { position: fixed; z-index: 200; min-width: 200px; padding: 6px; border-radius: 16px; background: rgba(255,255,255,.92); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); box-shadow: 0 0 0 1px rgba(17,17,19,.07), 0 16px 40px -12px rgba(40,40,80,.3); display: flex; flex-direction: column; animation: rvIn .18s cubic-bezier(.23,1,.32,1); transform-origin: top right; }
+.rv-menu button { text-align: left; padding: 10px 12px; border-radius: 10px; font: 400 15px/1.3 "Inter", system-ui, sans-serif; color: #111113; }
+.rv-menu button:hover, .rv-menu button:focus-visible { background: rgba(17,17,19,.06); outline: none; box-shadow: none !important; }
+@keyframes rvIn { from { opacity: 0; transform: scale(.96); } }
+
+/* ---------- widgets: one column under the queue, the first one peeking ---------- */
+html.rv .tiles { margin-top: 48px !important; margin-right: 24px; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+html.rv .tile, html.rv .tile.w2 { grid-column: auto; height: auto; min-height: 150px; border-radius: 28px; padding: 22px 24px; border: 0; background: var(--rv-glass-2); box-shadow: var(--rv-ring); }
+html.rv .tile header { font-size: 16px; color: var(--rv-ink); font-weight: 500; }
+html.rv .tile .tk b { font-size: 26px; font-weight: 500; letter-spacing: -.02em; }
+html.rv .tile-add { border-radius: 28px; border: 1px dashed rgba(17,17,19,.15); background: transparent; box-shadow: none; }
+
+/* phones and narrow windows: one column, queue first */
+@media (max-width: 960px) {
+  html.rv .desk-in { flex-direction: column; padding: 16px 16px 140px; gap: 28px; }
+  html.rv .rv-left { display: contents; }
+  html.rv .desk-in > *, html.rv .rv-left > * { width: 100%; min-width: 0; flex: none; }
+  html.rv .rv-left > .greet { order: 0; }
+  html.rv .desk-grid { order: 1; }
+  html.rv .rv-left > #actPrev { order: 2; }
+  html.rv .rv-left > .desk-acts { order: 3; margin-top: 0; }
+  html.rv .ux-since { margin-top: 20px; flex-wrap: wrap; }
+  html.rv #bell .hfbtn-l { display: block !important; }
+  html.rv #bell { width: calc(100vw - 32px); }
+  html.rv .greet h1, html.rv .greet-sub { font-size: 36px; }
+  html.rv .desk-grid { max-width: none; width: 100%; }
+  html.rv .stack { height: 640px; }
+  html.rv .qc { height: 612px; padding: 22px; }
+  html.rv .qc h3 { font-size: 24px; }
+  html.rv .tiles { margin-right: 0; }
+  html.rv #setupSlot { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { html.rv .rv-dots i, .rv-menu { transition: none; animation: none; } }
+html.rv #bell .hfbtn-l::after { content: "Ask HF1, or say what you want done"; font-size: 16px; }
