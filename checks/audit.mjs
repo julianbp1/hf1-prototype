@@ -74,17 +74,25 @@ function measure(LEFTOVER_SRC) {
 }
 
 const run = async () => {
-  const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--hide-scrollbars', '--force-color-profile=srgb'] });
+  const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--hide-scrollbars', '--force-color-profile=srgb', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows', '--disable-features=IntensiveWakeUpThrottling'] });
   const p0 = await browser.newPage(); await p0.goto(`${BASE}/${PAGE}`); await p0.waitForFunction('window.HF1_SCREENS');
   let screens = await p0.evaluate(() => window.HF1_SCREENS); await p0.close();
   if (args.only) { const o = args.only.split(','); screens = screens.filter(s => o.includes(s.slug) || o.includes(s.n)); }
-  const jobs = [];
+  let jobs = [];
   for (const s of screens) for (const role of ROLES) for (const vp of VP_KEYS) {
     if (s.area === 'Onboarding' && role !== 'ceo') continue; // onboarding happens before a role
     jobs.push({ s, role, vp });
   }
+  // --retry: keep earlier results and only redo the captures that failed
+  let kept = [];
+  if (args.retry) {
+    const prev = JSON.parse(fs.readFileSync(path.join(OUT, 'results.json'), 'utf8'));
+    const bad = new Set(prev.filter(r => r.failed).map(r => `${r.slug}|${r.role}|${r.vp}`));
+    kept = prev.filter(r => !r.failed);
+    jobs = jobs.filter(j => bad.has(`${j.s.slug}|${j.role}|${j.vp}`));
+  }
   console.log(`${jobs.length} captures`);
-  const results = []; let done = 0;
+  const results = [...kept]; let done = 0;
   const worker = async () => {
     const page = await browser.newPage();
     page.on('pageerror', e => { page.__errs = (page.__errs || []).concat(String(e.message).slice(0, 200)); });
@@ -94,7 +102,7 @@ const run = async () => {
         await page.setViewport(VPS[vp]);
         await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'no-preference' }]);
         await page.goto(`${BASE}/${PAGE}?screen=${s.slug}&role=${role}`, { waitUntil: 'load' });
-        await page.waitForFunction('window.__screenReady === true', { timeout: 60000 });
+        await page.waitForFunction('window.__screenReady === true', { timeout: +(args.timeout || 120000) });
         await new Promise(r => setTimeout(r, 900));
         const dir = path.join(OUT, 'shots', `${role}-${vp}`); fs.mkdirSync(dir, { recursive: true });
         const file = path.join(dir, `${s.n}-${s.slug}.png`);

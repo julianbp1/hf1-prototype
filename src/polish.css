@@ -1,0 +1,140 @@
+/* ================= Polish layer: one set of foundations for the whole product =================
+   Loaded last, so it redefines the tokens every older rule already reads.
+   Type   six sizes, nothing under 15px: 15 · 16 · 18 · 22 · 28 · 36
+   Radius four steps: 8 (controls) · 12 (rows, chips, small cards) · 16 (cards, panels) · 22 (the decision card), plus pill and circle
+   Shadow three layered elevations (ambient + direct light), border drawn as a 1px shadow ring
+   Motion 150ms press/hover · 220ms enter · 400ms panels; exits faster than enters; ease-out for UI, never ease-in
+   Colour amber = needs you · accent blue = something is happening · everything you act on is ink */
+:root {
+  /* type */
+  --fs-xs: 15px; --fs-sm: 15px; --fs-md: 16px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --fs-3xl: 36px;
+  --t-2: 15px; --t-1: 15px; --t0: 15px; --t1: 16px; --t2: 18px; --t3: 22px; --t4: 22px;
+  --lh-body: 1.5;
+
+  /* colour: faint text dark enough for 4.5:1 on white and on the grey canvas */
+  --p-ink-400: #676b76; --text-3: #676b76; --ink-3: #676b76;
+  --p-ink-600: #4f535c; --text-2: #4f535c; --ink-2: #4f535c;
+  --action: var(--p-ink-900); --action-hover: #000;
+  --st-progress: var(--accent); --st-done: var(--p-ink-600);
+
+  /* radius */
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 22px; --r: 8px;
+
+  /* shadow */
+  --ring: 0 0 0 1px rgba(16,18,27,.07);
+  --elev-1: var(--ring), 0 1px 2px -1px rgba(16,18,27,.06), 0 2px 4px rgba(16,18,27,.04);
+  --elev-2: var(--ring), 0 2px 4px -1px rgba(16,18,27,.06), 0 8px 20px -4px rgba(16,18,27,.08);
+  --elev-3: var(--ring), 0 4px 8px -2px rgba(16,18,27,.08), 0 24px 56px -12px rgba(16,18,27,.18);
+
+  /* motion */
+  --ease-out: cubic-bezier(.23,1,.32,1);
+  --ease-move: cubic-bezier(.77,0,.175,1);
+  --ease-drawer: cubic-bezier(.32,.72,0,1);
+  --ease: var(--ease-out);
+  --dur-fast: .15s; --dur-base: .22s; --dur-slow: .4s; --dur-reveal: .6s;
+}
+body { font-size: var(--fs-sm); line-height: var(--lh-body); }
+
+/* things you act on are ink, not accent blue */
+.btn-p { background: var(--action); color: #fff; box-shadow: 0 1px 2px rgba(16,18,27,.24), inset 0 1px 0 rgba(255,255,255,.12); }
+.btn-p:hover { background: var(--action-hover); }
+.btn { transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
+.btn:active:not(:disabled) { transform: scale(.97); }
+.more, .backbtn { color: var(--text-1); }
+.more:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* one visible focus ring, drawn with box-shadow so it follows the corner radius */
+:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--text-1) !important; }
+
+/* reduced motion: keep fades and colour changes, drop movement and loops */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-property: opacity, color, background-color, border-color, box-shadow !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* things you act on: ink instead of accent blue (generated from the rules that drew them blue) */
+.ctx button:hover { background: var(--p-gray-150); color: var(--action); }
+.ctx button:hover svg.i { color: var(--action); }
+button.kchip:hover { border-color: var(--line-2); color: var(--action); background: var(--p-gray-150); }
+.btn-p { background: var(--action); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 1px 2px rgba(16,18,27,.35); }
+.tourbox b { color: var(--action); }
+.tour-dots i.on { background: var(--action); }
+.more { color: var(--action); }
+.chat-sug button:hover { border-color: var(--action); color: var(--action); }
+.tpl[aria-pressed="true"] { border-color: var(--action); background: var(--p-gray-150); color: var(--action); }
+.so[aria-selected="true"] .soi { color: var(--action); }
+.vtabs button[aria-pressed="true"] .def { background: var(--p-gray-150); color: var(--action); }
+.node .goB { background: var(--action); }
+.msg.me { background: var(--action); }
+.hb-go { color: var(--action); }
+.hb-pin { color: var(--action); background: var(--p-gray-150); }
+.hmore { color: var(--action); }
+.mchip[aria-pressed="true"] .bx { background: var(--action); border-color: var(--action); }
+.hq-r .go { color: var(--action); }
+.mic:hover { color: var(--action); border-color: var(--line-2); }
+.sugg button:hover { border-color: var(--line-2); color: var(--action); }
+.obseg i.on { background: var(--action); }
+.qb.ok { background: var(--action); border-color: var(--action); box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 6px 16px -6px rgba(16,18,27,.6); }
+.ev-shots .sel { color: var(--action); }
+.tile .tpin { color: var(--action); }
+.hcm-acts button:hover { border-color: var(--action); color: var(--action); }
+.hfc-sug button:hover { border-color: var(--action); color: var(--action); }
+.hfc-send { background: var(--action); }
+.desk-edit.on { background: var(--action); border-color: var(--action); }
+.greet-hf .go { color: var(--action); }
+.tile-add .pl { background: var(--action); box-shadow: 0 10px 20px -8px rgba(16,18,27,.65); }
+.sh-ask button:hover { border-color: var(--action); color: var(--action); }
+.hl-open { color: var(--action); }
+.hfd-sug button:hover, .wz-sug button:hover { border-color: var(--action); color: var(--action); }
+.ht-acts button:hover { color: var(--action); }
+.ht-acts button:hover svg.i { color: var(--action); }
+.ht-acts .lk { color: var(--action); }
+.ht-cmds button:hover { color: var(--action); }
+.ht-cmds button:hover svg.i { color: var(--action); }
+.th-back .chip:hover { border-color: var(--action); color: var(--action); }
+.lvs-all { color: var(--action); }
+.lvs-cta { color: var(--action); }
+.popm .ck { color: var(--action); }
+.guide .gdots i.on { background: var(--action); }
+.fchip.mine[aria-pressed="true"] { background: var(--p-gray-150); border-color: var(--line-2); color: var(--action); }
+.hfbtn.on { background: var(--p-gray-150); border-color: var(--line-2); color: var(--action); }
+.vs-b:hover b { color: var(--action); }
+.fr-opt.on .fr-ck { background: var(--action); border-color: var(--action); }
+.wk-h:hover b { color: var(--action); }
+.btn.on { border-color: var(--line-2); color: var(--action); }
+.tf-o button[aria-pressed="true"] { background: var(--p-gray-150); border-color: var(--line-2); color: var(--action); }
+.sh-proj button[aria-pressed="true"] { background: var(--p-gray-150); border-color: var(--line-2); color: var(--action); }
+.qc-more { color: var(--action); }
+.ob-go { background: var(--action); box-shadow: 0 10px 24px -10px rgba(16,18,27,.7); }
+.prf-row:hover { color: var(--action); }
+.tgl.on { background: var(--action); }
+.anw-dots li.cur i { background: var(--action); box-shadow: 0 0 0 4px var(--p-gray-150); }
+.xf-top .ibx-tabs button[aria-selected="true"]::after { background: var(--action); }
+.xa:hover { color: var(--action); background: var(--p-gray-150); }
+.fb-add:hover { color: var(--action); border-color: var(--action); }
+.fb-end:hover { color: var(--action); border-color: var(--action); }
+.fb-br:hover { border-color: var(--action); color: var(--action); }
+.fb-sug button:hover { border-color: var(--action); color: var(--action); }
+.fb-tog[aria-checked="true"] .sw { background: var(--action); }
+.fb-samp[aria-checked="true"] .rd::after { background: var(--action); }
+.fb-rs .h button { color: var(--action); }
+.fb-ds-i:hover { background: var(--p-gray-150); color: var(--action); }
+.ux-go { color: var(--action); }
+.ux-more { color: var(--action); }
+.ux-add { background: var(--action); }
+.qb.ok:hover, .hfc-send:hover, .ob-go:hover, .ux-add:hover { background: var(--action-hover); }
+/* text links read as links without colour: medium weight and a quiet underline */
+.ux-go, .qc-more, .hmore, .more, .lvs-all, .lvs-cta, .hl-open, .hb-go, .greet-hf .go, .hq-r .go, .ht-acts .lk, .fb-rs .h button {
+  font-weight: 500; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 30%, transparent); text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+.ux-go:hover, .qc-more:hover, .hmore:hover, .more:hover, .lvs-all:hover, .hl-open:hover, .hb-go:hover { text-decoration-color: currentColor; }
+
+/* the decision card: room for 15px+ text */
+.stack { height: 540px; }
+.qc { height: 514px; }
+.qc.frc { height: 566px; }
+.stack:has(.frc) { height: 592px; }
+.qc .ev.art { padding-top: 30px; }
