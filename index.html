@@ -12019,10 +12019,14 @@ window.addEventListener('click', e => { const b = e.target.closest('[data-uxw]')
 (() => {
   const w = ms => new Promise(r => setTimeout(r, ms));
   const click = sel => { const e = document.querySelector(sel); if (!e) throw new Error('missing ' + sel); e.click(); };
-  const done = async () => { S.ob.done = true; S.panel = null; renderAll(); await w(600); };
+  // ?role=ceo|mgr|emp (or owner|manager|salesperson) opens the screen as that person, once onboarding is done
+  const RA = { owner: 'ceo', manager: 'mgr', salesperson: 'emp' };
+  const ROLE = (r => RA[r] || r)((new URLSearchParams(location.search).get('role') || '').toLowerCase());
+  const asRole = async () => { if (ROLE && VIEWS[ROLE] && S.vas !== ROLE) { setView(ROLE); await w(700); } };
+  const done = async () => { S.ob.done = true; S.panel = null; renderAll(); await w(600); await asRole(); };
   const onboard = async () => {
     await w(2600); click('[data-sconnect="github"]'); await w(1600); click('[data-setupdone]'); await w(2200); click('[data-frbuild]'); await w(9000);
-    if (!S.ob.done) await done();
+    if (!S.ob.done) await done(); else await asRole();
     S.frHint = false; renderAll(); await w(800);
   };
   const view = (pg, v) => async () => { await done(); if (v) S.view[pg] = v; go(pg); renderAll(); await w(1200); };
@@ -12083,6 +12087,7 @@ window.addEventListener('click', e => { const b = e.target.closest('[data-uxw]')
   const slug = (a, n) => (a + ' ' + n).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   window.HF1_SCREENS = SCR.map(([area, name], i) => ({ n: String(i + 1).padStart(2, '0'), area, name, slug: slug(area, name) }));
   window.__screenReady = false;
+  window.__hfWho = () => ({ vas: S.vas, me: S.me && S.me.name, page: S.page });
   const want = new URLSearchParams(location.search).get('screen');
   const i = want ? window.HF1_SCREENS.findIndex(s => s.slug === want || s.n === want) : -1;
   if (i < 0) { window.__screenReady = true; return; }

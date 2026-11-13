@@ -1,0 +1,23 @@
+{
+  "name": "hf1-prototype",
+  "version": "1.0.0",
+  "description": "A clickable prototype of the HF1 workspace for Halloway Auto Group (Owner view). It's one self-contained page: open `index.html` in a browser, or serve the folder:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianbp1/hf1-prototype.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julianbp1/hf1-prototype/issues"
+  },
+  "homepage": "https://github.com/julianbp1/hf1-prototype#readme",
+  "devDependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}
