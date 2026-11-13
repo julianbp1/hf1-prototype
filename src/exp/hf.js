@@ -26,7 +26,7 @@
   doc.body.appendChild(top);
   const curPage = () => {
     const p = S.page;
-    if (p === 'profile' || p === 'agentnew') return S.sub && String(S.sub).startsWith('p:') ? 'people' : 'agents';
+    if (p === 'profile' || p === 'agentnew') return String(S.prof || S.sub || '').startsWith('p:') ? 'people' : 'agents';
     return p;
   };
   const needs = () => { const a = doc.querySelector('.nav .nav-att'); return a && a.textContent.trim() !== '0' && a.textContent.trim() !== ''; };
@@ -99,6 +99,8 @@
   const W1 = ['#6e7b3e', '#c98b5a', '#8fa476', '#c58474', '#b8a052', '#7d8a5a', '#a9b78d', '#d9a08f'];
   try { Object.keys(ACOL).forEach((k, i) => { if (k !== 'johnny') ACOL[k] = W1[i % W1.length]; }); } catch (e) {}
   try { Object.keys(PCOL).forEach((k, i) => { PCOL[k][0] = W1[i % W1.length]; }); } catch (e) {}
+  try { FSH.splice(0, FSH.length, ...W1.slice(0, 7)); } catch (e) {}
+  try { FTYPE.sheet[2] = '#6e7b3e'; FTYPE.pdf[2] = '#c58474'; FTYPE.doc[2] = '#8a7a4a'; FTYPE.image[2] = '#8fa476'; } catch (e) {}
 
   /* Home: welcome and activity left; the queue, then widgets, right */
   const _home = renderHome;
@@ -177,9 +179,118 @@
     tl.style.setProperty('--mx', (e.clientX - r.left) + 'px'); tl.style.setProperty('--my', (e.clientY - r.top) + 'px');
   });
 
-  const sync = () => { root.classList.toggle('hf-ob', !S.ob.done); renderTop(); moveAct(); doc.querySelectorAll('.qc.front').forEach(shapeCard); dots(); tiles(); };
+  /* ================= AffectUI pieces, ported to plain JS and dressed in moss and bone ================= */
+  const RAYS = '<svg class="hf-rays" viewBox="0 0 16 16" aria-hidden="true">' + Array.from({ length: 8 }, (_, i) => `<line x1="8" y1="1.75" x2="8" y2="4.75" transform="rotate(${i * 45} 8 8)" style="animation-delay:${(i - 8) * 100}ms"/>`).join('') + '</svg>';
+  const P_CHECK = 'M228.24,76.24l-128,128a6,6,0,0,1-8.48,0l-56-56a6,6,0,0,1,8.48-8.48L96,191.51,219.76,67.76a6,6,0,0,1,8.48,8.48Z';
+  const P_X = 'M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z';
+
+  /* Thinking Loader: eight rays and a label that rolls through what HF1 is doing */
+  const PHASES = ['Thinking', 'Reading what’s on screen', 'Checking with your agents', 'Writing it up'];
+  const thinker = el => {
+    if (el.dataset.hf) return; el.dataset.hf = '1';
+    el.classList.add('hf-think'); el.setAttribute('role', 'status');
+    el.innerHTML = RAYS + `<span class="hf-think-t"><span class="hf-lbl hf-shine" data-text="${PHASES[0]}">${PHASES[0]}</span></span>`;
+    const box = el.querySelector('.hf-think-t'); let i = 0;
+    const fit = () => { const c = box.querySelector('.hf-lbl:not(.out)'); if (c) box.style.width = (c.scrollWidth + 1) + 'px'; };
+    fit();
+    const t = setInterval(() => {
+      if (!el.isConnected || i >= PHASES.length - 1) { clearInterval(t); return; }
+      i++;
+      const old = box.querySelector('.hf-lbl:not(.out)'); if (old) { old.classList.add('out'); old.classList.remove('hf-shine'); setTimeout(() => old.remove(), 340); }
+      const n = doc.createElement('span'); n.className = 'hf-lbl hf-shine in'; n.dataset.text = PHASES[i]; n.textContent = PHASES[i];
+      box.appendChild(n); fit();
+    }, 1700);
+  };
+  /* "Happening now": the label shimmers while the work runs, rays instead of three dots */
+  const running = () => doc.querySelectorAll('.ap2-tx:not([data-hf])').forEach(t => {
+    t.dataset.hf = '1';
+    const d = t.querySelector('.ap2-dots'); if (d) d.remove();
+    t.dataset.text = t.textContent; t.classList.add('hf-shine');
+    if (t.parentElement && !t.parentElement.querySelector('.hf-rays')) t.parentElement.insertAdjacentHTML('beforeend', RAYS);
+  });
+
+  /* Notification Stack: toasts become cards that stack; the front one reads, the others peek */
+  const tStack = doc.createElement('div'); tStack.className = 'hf-toasts'; tStack.setAttribute('aria-live', 'polite');
+  doc.body.appendChild(tStack);
+  const tLayout = () => { const live = [...tStack.children].filter(c => !c.dataset.leaving); live.forEach((c, i) => { c.dataset.depth = Math.min(live.length - 1 - i, 3); }); };
+  const tDismiss = c => { if (!c || c.dataset.leaving) return; c.dataset.leaving = '1'; tLayout(); setTimeout(() => { c.remove(); tLayout(); }, 340); };
+  const tPush = m => {
+    const c = doc.createElement('div'); c.className = 'hf-toast';
+    c.innerHTML = `<span class="ic">${PH(P_CHECK, 16)}</span><span class="tx"></span><button type="button" class="x" aria-label="Dismiss">${PH(P_X, 14)}</button>`;
+    c.querySelector('.tx').textContent = m;
+    c.querySelector('.x').addEventListener('click', () => tDismiss(c));
+    tStack.appendChild(c); tLayout();
+    while (tStack.children.length > 4) tStack.firstElementChild.remove();
+    setTimeout(() => tDismiss(c), 4200);
+  };
+  try { toast = function (m) { if (typeof HFX !== 'undefined' && HFX.busy) return; tPush(m); }; } catch (e) {}
+  window.__hfToast = m => toast(m);
+
+  /* Tooltip: a small moss label for controls that show no words; neighbours open at once */
+  const tip = doc.createElement('div'); tip.className = 'hf-tip'; tip.setAttribute('role', 'tooltip'); tip.hidden = true;
+  doc.body.appendChild(tip);
+  let tipTimer = 0, tipHid = 0, tipFor = null;
+  const tipLabel = el => el.dataset.tip || el.getAttribute('aria-label') || '';
+  const hasWords = el => [...el.querySelectorAll('span,b,small')].some(s => s.offsetWidth > 2 && s.textContent.trim()) || [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
+  const tipHide = () => { clearTimeout(tipTimer); if (!tip.hidden) { tip.hidden = true; tipHid = Date.now(); } tipFor = null; };
+  const tipShow = el => {
+    const l = tipLabel(el); if (!l || !el.isConnected) return;
+    tip.textContent = l; tip.hidden = false; tip.dataset.instant = Date.now() - tipHid < 600 ? '1' : '';
+    const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+    const below = r.top - h - 8 < 8;
+    tip.dataset.side = below ? 'bottom' : 'top';
+    tip.style.top = (below ? r.bottom + 8 : r.top - h - 8) + 'px';
+    tip.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + 'px';
+  };
+  doc.addEventListener('pointerover', e => {
+    if (e.pointerType === 'touch') return;
+    const el = e.target.closest && e.target.closest('button, a, .av[title], [data-tip]');
+    if (el === tipFor) return;
+    tipHide(); if (!el) return;
+    if (el.title) { el.dataset.tip = el.title; el.removeAttribute('title'); }
+    if (!tipLabel(el) || hasWords(el)) return;
+    tipFor = el; tipTimer = setTimeout(() => tipShow(el), Date.now() - tipHid < 600 ? 0 : 450);
+  });
+  doc.addEventListener('pointerdown', tipHide, true);
+  doc.addEventListener('keydown', e => { if (e.key === 'Escape') tipHide(); });
+  doc.addEventListener('scroll', tipHide, true);
+
+  /* Segmented Control: the selected pill slides to its new place instead of jumping */
+  const slid = {};
+  const slide = (box, sel, key, cls) => {
+    if (!box) return;
+    const on = box.querySelector(sel);
+    let th = box.querySelector(':scope > .hf-thumb');
+    if (!on) { if (th) th.style.opacity = 0; return; }
+    if (!th) { th = doc.createElement('i'); th.className = 'hf-thumb ' + (cls || ''); th.setAttribute('aria-hidden', 'true'); box.prepend(th); }
+    box.classList.add('hf-slide');
+    const x = on.offsetLeft, y = on.offsetTop, w = on.offsetWidth, h = on.offsetHeight, k = `${x},${y},${w},${h}`;
+    if (th.dataset.k === k) return;
+    const was = slid[key];
+    if (!th.dataset.k && was && was !== k) { const [px, py, pw, ph] = was.split(',').map(Number); th.style.transition = 'none'; th.style.transform = `translate(${px}px,${py}px)`; th.style.width = pw + 'px'; th.style.height = ph + 'px'; th.getBoundingClientRect(); th.style.transition = ''; }
+    th.dataset.k = k; th.style.opacity = 1;
+    th.style.transform = `translate(${x}px,${y}px)`; th.style.width = w + 'px'; th.style.height = h + 'px';
+    slid[key] = k;
+  };
+  const slides = () => {
+    slide(top.querySelector('.hf-nav'), '[aria-current="page"]', 'nav', 'ink');
+    doc.querySelectorAll('.vtabs').forEach((v, i) => slide(v, '[aria-pressed="true"],[aria-selected="true"]', 'vtabs:' + S.page + i, 'cream'));
+    doc.querySelectorAll('.prf-tabs').forEach(v => slide(v, '[aria-selected="true"]', 'prf', 'well'));
+  };
+
+  /* full-screen sheets bring their own header: the shell steps back while one is open */
+  const sheet = () => { const s = doc.getElementById('sheet'); root.classList.toggle('hf-sheet', !!(s && s.classList.contains('full') && s.getClientRects().length)); };
+
+  const sync = () => {
+    root.classList.toggle('hf-ob', !S.ob.done); root.dataset.hfpage = curPage();
+    renderTop(); moveAct(); doc.querySelectorAll('.qc.front').forEach(shapeCard); dots(); tiles();
+    doc.querySelectorAll('.hx-think').forEach(thinker); running(); sheet(); slides();
+  };
   let queued = false;
-  new MutationObserver(() => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; sync(); }); })
-    .observe(doc.querySelector('.app') || doc.body, { childList: true, subtree: true });
+  new MutationObserver(muts => {
+    if (queued || muts.every(m => tStack.contains(m.target) || m.target === tip || (m.target.closest && m.target.closest('.hf-think-t')))) return;
+    queued = true; requestAnimationFrame(() => { queued = false; sync(); });
+  }).observe(doc.body, { childList: true, subtree: true });
+  addEventListener('resize', () => { Object.keys(slid).forEach(k => delete slid[k]); doc.querySelectorAll('.hf-thumb').forEach(t => { t.dataset.k = ''; }); slides(); });
   sync();
 })();

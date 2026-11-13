@@ -114,10 +114,10 @@ const run = async () => {
       } catch (e) { results.push({ n: s.n, slug: s.slug, area: s.area, name: s.name, role, vp, failed: String(e.message).slice(0, 200) }); }
       done++; if (done % 10 === 0) console.log(`${done} done`);
     }
-    await page.close();
+    await page.close().catch(() => {});
   };
   await Promise.all(Array.from({ length: CONC }, worker));
-  await browser.close();
+  await browser.close().catch(() => {});
   results.sort((a, b) => (a.n + a.role + a.vp).localeCompare(b.n + b.role + b.vp));
   fs.mkdirSync(OUT, { recursive: true });
   fs.writeFileSync(path.join(OUT, 'results.json'), JSON.stringify(results, null, 1));

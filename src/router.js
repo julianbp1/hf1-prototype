@@ -39,7 +39,7 @@
     ['Tasks', 'List', view('projects', 'db')],
     ['Tasks', 'Timeline', view('projects', 'timeline')],
     ['Tasks', 'Canvas', view('projects', 'canvas')],
-    ['Tasks', 'Task details', async () => { await view('projects', 'board')(); openEntity('t:SLS-21'); await w(1200); }],
+    ['Tasks', 'Task details', async () => { await view('projects', 'board')(); openEntity('t:SLS-14'); await w(1200); }],
     ['Flows', 'Canvas', view('flows', 'canvas')],
     ['Flows', 'List', view('flows', 'db')],
     ['Flows', 'Builder · Trade-in offers', async () => { await deal(); await w(300); }],
