@@ -220,3 +220,90 @@ html.hf .hf-home .tile-add .pl { background: var(--hf-lime) !important; color: v
   html.hf .ptool { top: 108px; padding: 0 12px; }
 }
 @media (prefers-reduced-motion: reduce) { .hf-ground .l1, .hf-orb { animation: none; } html.hf .hf-home .tile:hover { transform: none; } }
+
+/* ---------- page header: a title, not a toolbar ---------- */
+html.hf .ptool .pt > svg.i { display: none; }
+html.hf .ptool .pt b { font-size: 26px; font-weight: 500; letter-spacing: -.025em; }
+html.hf .backbtn { font-size: 15px; color: var(--hf-ink-2); }
+
+/* ---------- Activity: posts as cards on the ground ---------- */
+html.hf .pv:has(> .ibx) { padding: 140px 40px 0; }
+html.hf .xf-col { border: 0 !important; background: transparent !important; max-width: 680px; padding-bottom: 150px; }
+html.hf .xf-top { background: color-mix(in srgb, var(--hf-bone) 88%, transparent) !important; border: 0 !important; padding: 8px 0 14px; }
+html.hf .xf-top .ibx-tabs { gap: 6px; }
+html.hf .xf-top .ibx-tabs button { flex: 0 0 auto; height: 36px; padding: 0 14px; border-radius: 18px; font-weight: 400; color: var(--hf-ink-2); }
+html.hf .xf-top .ibx-tabs button[aria-selected="true"] { background: var(--hf-ink) !important; color: #fff; }
+html.hf .xf-top .ibx-tabs button[aria-selected="true"] * { color: #fff !important; }
+html.hf .xf-top .ibx-tabs button::after { display: none !important; }
+html.hf .xp { margin: 0 0 14px; padding: 20px 22px 10px; border: 0 !important; border-radius: 28px; background: var(--hf-glass-q); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: var(--hf-ring); transition: box-shadow .15s ease, transform .15s var(--hf-ease); }
+html.hf .xp:hover { background: var(--hf-glass); box-shadow: var(--hf-lift); transform: translateY(-2px); }
+html.hf .xp-ctx { margin: 0 0 8px; font-size: 15px; }
+html.hf .xp-ctx svg.i { display: none; }
+html.hf .xp.att .xp-ctx { color: var(--hf-needs-ink); }
+html.hf .xp.att .xp-ctx::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--hf-needs); }
+html.hf .xp-av, html.hf .xp-av .av { width: 40px !important; height: 40px !important; }
+html.hf .xp-hd { font-size: 15px; }
+html.hf .xp-t { font-size: 18px; font-weight: 500; letter-spacing: -.01em; }
+html.hf .xp-l { font-size: 16px; color: var(--hf-ink-2); line-height: 1.5; }
+html.hf .xp-emb, html.hf .xp-ev > * { border: 0 !important; border-radius: 20px !important; background: var(--hf-well) !important; }
+html.hf .xp-emb .ev-tab, html.hf .xp-ev .ev-tab { background: none !important; }
+html.hf .xp-live { background: var(--hf-lime-dot); box-shadow: 0 0 0 2px var(--hf-olive); }
+html.hf .xp-acts .xa { height: 38px; padding: 0 14px; border-radius: 19px; font-size: 15px; }
+html.hf .xp-acts .xa:hover { background: var(--hf-pill); }
+html.hf .xp-acts .xa svg.i { display: none; }
+html.hf .xp-acts .xa:has(svg.i):not(:has(span)) svg.i { display: inline-block; width: 18px; height: 18px; }
+html.hf .xf-thread, html.hf .xf .ibx-detail { background: transparent !important; }
+
+/* ---------- Tasks: headings over cards, no column boxes ---------- */
+html.hf .board { gap: 22px; }
+html.hf .bcol { background: transparent !important; border: 0 !important; padding: 0; gap: 10px; }
+html.hf .bcol-h { font-size: 16px; font-weight: 500; padding: 2px 4px 8px; }
+html.hf .bcol-h span { font-weight: 400; color: var(--hf-ink-3); }
+html.hf .bcol-h svg.st { display: none; }
+html.hf .bcol-h::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--hf-ink-4); flex: none; }
+html.hf .bcard, html.hf .fcard, html.hf .ccard, html.hf .proj, html.hf .tbl-wrap, html.hf .tl, html.hf .set .card { border: 0 !important; border-radius: 24px; background: var(--hf-glass-q) !important; box-shadow: var(--hf-ring) !important; }
+html.hf .bcard { padding: 16px 18px; gap: 8px; transition: box-shadow .15s ease, transform .15s var(--hf-ease); }
+html.hf .bcard:hover, html.hf .fcard:hover, html.hf .ccard:hover { box-shadow: var(--hf-lift) !important; transform: translateY(-2px); }
+html.hf .bcard .bt { font-size: 16px; font-weight: 500; line-height: 1.35; }
+html.hf .bcard .bm, html.hf .bcard .bm * { font-size: 15px; color: var(--hf-ink-3); }
+html.hf .mono, html.hf .trow .tid { font-family: var(--hf-font) !important; font-size: 15px; color: var(--hf-ink-3); }
+html.hf .bcard.amber, html.hf .fcard.needs, html.hf .ccard.blocks, html.hf .tile.needs, html.hf .oc.waiting { border: 0 !important; box-shadow: var(--hf-ring) !important; background: var(--hf-glass-q) !important; }
+html.hf .bcard.amber .bm:last-child, html.hf .fc-why { color: var(--hf-needs-ink); }
+html.hf .bcard.dashed, html.hf .fcard.off, html.hf .ccard.off { background: transparent !important; box-shadow: inset 0 0 0 1px rgba(30,33,27,.14) !important; }
+html.hf .ms-ic { border-color: var(--hf-olive); }
+html.hf table.db { font-size: 15px; }
+html.hf .db th { font-size: 15px; color: var(--hf-ink-3); background: transparent; border-color: var(--hf-hair); padding: 14px 18px; }
+html.hf .db td { padding: 14px 18px; border-color: var(--hf-hair); font-size: 16px; }
+html.hf .db tr.grp td { background: transparent; color: var(--hf-ink-3); font-size: 15px; padding-top: 20px; }
+html.hf .db tr.amber td { background: rgba(217,138,43,.06); }
+html.hf .db tbody tr:hover td { background: rgba(30,33,27,.03); }
+html.hf .tl-bar.progress { background: var(--hf-sage); }
+html.hf .tl-bar.done { background: var(--hf-moss); }
+html.hf .tl-bar.review { background: var(--hf-peach); }
+html.hf .tl-today { background: var(--hf-olive); }
+html.hf .tl-today span { background: var(--hf-moss); }
+
+/* ---------- Workflows: calm canvas, warm steps ---------- */
+html.hf .stage { background-image: radial-gradient(circle, rgba(30,33,27,.12) 1px, transparent 1.2px); }
+html.hf .fcard { padding: 20px 22px; gap: 12px; }
+html.hf .fc-h b { font-size: 18px; font-weight: 500; }
+html.hf .cv-ui .zoom, html.hf .cv-ui .legend, html.hf .cv-ui .hint { border: 0; border-radius: 20px; background: var(--hf-glass); box-shadow: var(--hf-ring); }
+html.hf .cv-ui { bottom: 30px; left: 24px; }
+html.hf .fb-top, html.hf .fb-bar { background: transparent !important; border: 0 !important; }
+html.hf .node { border: 0; border-radius: 20px; background: var(--hf-glass-q); box-shadow: var(--hf-ring); }
+html.hf .wires .lk-run, html.hf .wires .live { stroke: var(--hf-olive); }
+html.hf .wires .lk-wait, html.hf .wires .handoff { stroke: var(--hf-needs); }
+html.hf .blabel { border: 0; border-radius: 12px; background: var(--hf-cream); box-shadow: var(--hf-ring); font-size: 15px; z-index: 2; }
+
+/* onboarding: just the brand and HF1 talking; no nav, no ask bar yet */
+html.hf.hf-ob .hf-navwrap, html.hf.hf-ob .hf-right, html.hf.hf-ob .hf-ask { visibility: hidden; }
+
+/* agents and people */
+html.hf .prf-h.ux-poster { border-radius: 36px; padding: 36px; background: var(--hf-glass-q) !important; box-shadow: var(--hf-ring); overflow: hidden; }
+html.hf .prf-h.ux-poster::after { right: -140px; top: -180px; width: 460px; height: 460px; background: radial-gradient(closest-side, color-mix(in srgb, var(--pc) 45%, transparent), transparent) !important; filter: blur(12px); }
+html.hf .attn, html.hf .firststep { border: 0 !important; border-radius: 20px; background: rgba(217,138,43,.1) !important; }
+html.hf .attn-t { color: var(--hf-needs-ink); font-weight: 500; }
+html.hf .ptabs { border: 0; gap: 4px; background: transparent; }
+html.hf .ptabs button, html.hf .ptabs a { height: 36px; padding: 0 14px; border-radius: 18px; border: 0 !important; color: var(--hf-ink-3); }
+html.hf .ptabs [aria-selected="true"], html.hf .ptabs .on { background: var(--hf-pill); color: var(--hf-ink); }
+html.hf .ptabs [aria-selected="true"]::after, html.hf .ptabs .on::after { display: none !important; }

@@ -84,6 +84,21 @@
   });
   doc.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
+  /* agents keep their pixel faces, recoloured to the warm palette */
+  const WARM = { '6bcb77': 'a9b78d', '4d8af0': '9fb07a', 'f6d85b': 'e8c77a', 'f28ab2': 'e3a897', 'ff8a4c': 'f2c7a2', '9c7cf4': 'c9b99a', '3fc1c9': 'b5c69a', 'f25f5c': 'd9a08f', 'b8e05a': 'd6ec6b', '5bc0f5': 'cdd8b0' };
+  if (typeof PX !== 'undefined' && PX.svg) {
+    const _svg = PX.svg;
+    PX.svg = id => _svg(id).replace(/#([0-9a-f]{6})/gi, (m, h) => WARM[h.toLowerCase()] ? '#' + WARM[h.toLowerCase()] : m);
+    if (PX.color) { const _col = PX.color; PX.color = id => { const c = String(_col(id) || ''); const h = c.replace('#', '').toLowerCase(); return WARM[h] ? '#' + WARM[h] : c; }; }
+  }
+
+  /* agent orbs, agent accents and project dots, warmed to the palette (HF1 keeps its orb) */
+  const W3 = [['#2f3a22', '#6e7b3e', '#e2efa8'], ['#3a2a1c', '#c98b5a', '#f6dcc0'], ['#2a3326', '#8fa476', '#e6eed2'], ['#3b2620', '#c58474', '#f3d2c6'], ['#33301c', '#b8a052', '#f1e6b4']];
+  try { Object.keys(ORB).forEach((k, i) => { if (k !== 'johnny' && k !== 'hf1') ORB[k] = W3[i % W3.length]; }); } catch (e) {}
+  const W1 = ['#6e7b3e', '#c98b5a', '#8fa476', '#c58474', '#b8a052', '#7d8a5a', '#a9b78d', '#d9a08f'];
+  try { Object.keys(ACOL).forEach((k, i) => { if (k !== 'johnny') ACOL[k] = W1[i % W1.length]; }); } catch (e) {}
+  try { Object.keys(PCOL).forEach((k, i) => { PCOL[k][0] = W1[i % W1.length]; }); } catch (e) {}
+
   /* Home: welcome and activity left; the queue, then widgets, right */
   const _home = renderHome;
   renderHome = function () {
@@ -161,7 +176,7 @@
     tl.style.setProperty('--mx', (e.clientX - r.left) + 'px'); tl.style.setProperty('--my', (e.clientY - r.top) + 'px');
   });
 
-  const sync = () => { renderTop(); moveAct(); doc.querySelectorAll('.qc.front').forEach(shapeCard); dots(); tiles(); };
+  const sync = () => { root.classList.toggle('hf-ob', !S.ob.done); renderTop(); moveAct(); doc.querySelectorAll('.qc.front').forEach(shapeCard); dots(); tiles(); };
   let queued = false;
   new MutationObserver(() => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; sync(); }); })
     .observe(doc.querySelector('.app') || doc.body, { childList: true, subtree: true });
