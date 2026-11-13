@@ -307,3 +307,56 @@ html.hf .ptabs { border: 0; gap: 4px; background: transparent; }
 html.hf .ptabs button, html.hf .ptabs a { height: 36px; padding: 0 14px; border-radius: 18px; border: 0 !important; color: var(--hf-ink-3); }
 html.hf .ptabs [aria-selected="true"], html.hf .ptabs .on { background: var(--hf-pill); color: var(--hf-ink); }
 html.hf .ptabs [aria-selected="true"]::after, html.hf .ptabs .on::after { display: none !important; }
+
+/* ---------- polish ---------- */
+.hf-nav button svg { display: none; fill: currentColor; }
+/* status: a dot and a word, never a badge */
+html.hf .ax-st { height: auto; padding: 0; background: none !important; box-shadow: none !important; gap: 8px; font-size: 15px; font-weight: 400; color: var(--hf-ink-2) !important; }
+html.hf .ax-st > i, html.hf .ax-st > .d, html.hf .ax-st svg { display: none; }
+html.hf .ax-st::before { content: ""; width: 9px; height: 9px; border-radius: 50%; flex: none; background: var(--hf-olive); }
+html.hf .ax-st.amber { color: var(--hf-needs-ink) !important; }
+html.hf .ax-st.amber::before { background: var(--hf-needs); }
+html.hf .ax-st.muted::before { background: var(--hf-ink-4); }
+html.hf .ax-st.off::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--hf-ink-4); }
+/* profile tabs as pills */
+html.hf .prf-tabs { gap: 4px; border: 0; margin: 28px 0 20px; }
+html.hf .prf-tabs button { height: 38px; padding: 0 16px; border-radius: 19px; color: var(--hf-ink-3); font-size: 15px; }
+html.hf .prf-tabs button[aria-selected="true"] { background: var(--hf-pill); color: var(--hf-ink); font-weight: 500; }
+html.hf .prf-tabs button[aria-selected="true"]::after { display: none; }
+html.hf .btn:disabled, html.hf .btn-p:disabled { background: var(--hf-pill) !important; color: var(--hf-ink-3) !important; opacity: 1; box-shadow: none !important; }
+/* flow builder: one HF1 entry (the ask bar); branch labels clear of the router */
+html.hf .fb-hfhint { display: none !important; }
+html.hf .fb-br { border: 0 !important; border-radius: 12px; padding: 3px 10px; background: var(--hf-cream); box-shadow: var(--hf-ring); color: var(--hf-ink-2); z-index: 3; }
+html.hf .fb-br.fb-other { transform: translate(-6%, 70%); }
+html.hf .fb-ui .zoom { border: 0; border-radius: 20px; background: var(--hf-glass); box-shadow: var(--hf-ring); }
+html.hf .fb-ui { bottom: 30px; left: 24px; }
+
+/* phone: the nav becomes a dock of icons, HF1 becomes the orb beside it */
+@media (max-width: 900px) {
+  .hf-top { padding: 14px 16px 0; }
+  .hf-navwrap { position: fixed; left: 12px; right: 84px; bottom: 18px; z-index: 61; justify-content: flex-start; flex: none; }
+  .hf-nav { width: 100%; justify-content: space-between; padding: 6px; border-radius: 30px; background: rgba(251,250,246,.94); box-shadow: 0 0 0 1px rgba(30,33,27,.08), 0 14px 30px -14px rgba(62,52,24,.4); }
+  .hf-nav button { width: 44px; height: 44px; padding: 0; border-radius: 50%; justify-content: center; flex: none; position: relative; }
+  .hf-nav button svg { display: block; }
+  .hf-nav button .lb { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .hf-nav button[aria-current="page"] svg { fill: var(--hf-lime); }
+  .hf-nav .dot { position: absolute; top: 8px; right: 8px; }
+  .hf-nav button[data-nav="people"], .hf-nav button[data-nav="knowledge"] { display: none; }
+  .hf-ask { left: auto; right: 12px; bottom: 18px; transform: none; width: 62px; height: 62px; padding: 0; justify-content: center; }
+  .hf-ask:active { transform: scale(.96); }
+  .hf-ask span.t, .hf-ask kbd { display: none; }
+  html.hf .hf-home { padding-top: 84px; }
+  html.hf .pv { padding: 84px 12px 110px; }
+  html.hf .ptool { top: 64px; }
+  html.hf .area:not(.home-mode) .pv { padding-top: 128px; }
+  html.hf .area:not(.home-mode) .stage { top: 124px; }
+  html.hf .pv:has(> .ibx) { padding: 124px 12px 0; }
+  html.hf .xp { padding: 16px 16px 8px; border-radius: 24px; }
+  html.hf .board { grid-auto-columns: minmax(270px, 86vw); }
+  html.hf .ptool { flex-wrap: wrap; height: auto; gap: 8px; }
+  html.hf .vtabs svg.i { display: inline-block !important; width: 18px; height: 18px; }
+  html.hf .vtabs button { padding: 0 12px; }
+  html.hf .ptool .btn { height: 38px; padding: 0 14px; }
+  html.hf .area:not(.home-mode) .pv:not(:has(> .ibx)) { padding-top: 176px; }
+  html.hf .area:not(.home-mode) .stage { top: 172px; }
+}
