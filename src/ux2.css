@@ -1,0 +1,44 @@
+/* ---------- plan 4–8 ---------- */
+.ux-fc .ux-fc-n { font-size: var(--fs-xs); font-weight: 500; color: var(--text-3); letter-spacing: .01em; }
+.ux-fc .ux-fc-s { margin: 4px 0 10px; font-size: var(--fs-md); line-height: 1.45; color: var(--text-1); }
+.ux-fc .ux-fc-s b { font-weight: 600; }
+.ux-fc .fc-why { margin-bottom: 10px; }
+/* agent poster */
+.prf-h.ux-poster { position: relative; padding: 28px 28px 26px; margin: 0 0 8px; border-radius: 24px; background: linear-gradient(135deg, color-mix(in srgb, var(--pc) 22%, var(--surface-1, #fff)), color-mix(in srgb, var(--pc) 6%, var(--surface-1, #fff)) 70%); overflow: hidden; }
+.prf-h.ux-poster::after { content: ""; position: absolute; right: -60px; top: -80px; width: 260px; height: 260px; border-radius: 50%; background: color-mix(in srgb, var(--pc) 18%, transparent); pointer-events: none; }
+.prf-h.ux-poster > .av { --s: 96px !important; width: 96px; height: 96px; box-shadow: 0 10px 30px color-mix(in srgb, var(--pc) 40%, transparent); position: relative; z-index: 1; }
+.prf-h.ux-poster > .grow, .prf-h.ux-poster .prf-acts { position: relative; z-index: 1; }
+.ux-rec { margin: 10px 0 0 !important; font-size: var(--fs-sm) !important; color: var(--text-2); }
+.ux-rec b { color: var(--text-1); font-weight: 600; }
+/* tools */
+.ux-tc .ux-say { display: block; margin-top: 4px; font-size: var(--fs-sm); color: var(--text-1); line-height: 1.4; }
+.ux-tc small { margin-top: 2px; }
+.ux-tc.blocks { box-shadow: inset 0 0 0 1px var(--amber-line, #f1c27d); background: color-mix(in srgb, var(--amber-bg, #fff6e5) 55%, var(--surface-1, #fff)); }
+.ux-tc.blocks .ux-say { color: var(--amber, #a15c00); font-weight: 500; }
+.ux-tc .cc-top .avs { opacity: .9; }
+.ux-tc .cc-f { margin-top: 12px; }
+/* files */
+.ux-files .ux-lead { margin: 4px 0 6px; color: var(--text-2); font-size: var(--fs-md); }
+.ux-fg { margin-top: 18px; }
+.ux-fg > header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.ux-fg > header b { font-size: var(--fs-md); font-weight: 600; }
+.ux-pdot { width: 10px; height: 10px; border-radius: 3px; background: var(--c); flex: none; }
+.ux-more { font-size: var(--fs-sm); color: var(--accent-1); font-weight: 500; }
+.ux-fchips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.ux-fchip { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; border-radius: var(--radius-pill); box-shadow: inset 0 0 0 1px var(--border-1); background: var(--surface-1, #fff); font-size: var(--fs-sm); color: var(--text-1); }
+.ux-fchip:hover { box-shadow: inset 0 0 0 1px var(--border-2); }
+.ux-fchip small { color: var(--text-3); font-variant-numeric: tabular-nums; }
+/* rules */
+.ux-rules .rl { align-items: flex-start; gap: 14px; padding: 14px 4px; }
+.ux-path { display: inline-flex; align-items: center; flex: none; min-width: 96px; padding-top: 2px; }
+.ux-path i { width: 10px; height: 1.5px; background: var(--border-2); margin: 0 2px; }
+.ux-rs { display: block; margin-top: 3px; font-size: var(--fs-md); line-height: 1.45; color: var(--text-2); }
+@media (max-width: 700px) { .prf-h.ux-poster { padding: 20px; } .prf-h.ux-poster > .av { width: 72px; height: 72px; } .ux-path { min-width: 0; } }
+/* learned widget suggestions */
+.ux-wsug { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 16px; background: color-mix(in srgb, var(--surface-1, #fff) 70%, transparent); box-shadow: inset 0 0 0 1px var(--border-1); animation: uxIn .5s var(--ease-out, ease-out) both; }
+.ux-wsug-h { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--text-2); margin-right: 4px; }
+.ux-wsug-b { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 6px 0 12px; border-radius: var(--radius-pill); background: var(--surface-1, #fff); box-shadow: inset 0 0 0 1px var(--border-1); font-size: var(--fs-sm); }
+.ux-wsug-b b { font-weight: 600; } .ux-wsug-b small { color: var(--text-3); }
+.ux-wsug-b:hover { box-shadow: inset 0 0 0 1px var(--accent-1); }
+.ux-add { height: 26px; padding: 0 10px; border-radius: var(--radius-pill); background: var(--accent-1); color: #fff; display: inline-flex; align-items: center; font-weight: 500; font-size: var(--fs-xs); }
+@media (max-width: 700px) { .prf-h.ux-poster { flex-direction: column; align-items: flex-start; } .ux-rules .rl { flex-direction: column; gap: 8px; } .ux-rs { font-size: var(--fs-sm); } }
