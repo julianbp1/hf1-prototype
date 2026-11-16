@@ -1,0 +1,37 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "Home \u00b7 Owner \u00b7 desktop",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "System.dc.html": {
+      "expand": "fill",
+      "h": 15200,
+      "title": "Design system \u00b7 source of truth",
+      "w": 1440,
+      "x": -1640,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-13T10:30:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {},
+  "order": [
+    "System.dc.html",
+    "Main.dc.html"
+  ],
+  "pages": [],
+  "title": "HF1 Home revamp"
+}
