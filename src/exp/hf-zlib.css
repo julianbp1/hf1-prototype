@@ -1,0 +1,136 @@
+/* ================= HF1 component library · masters and their instances =================
+   Every component reads its own properties below. The Library page edits these properties;
+   every instance across the prototype follows, like a master component in Figma.
+   Defaults match the design as it is today. Loaded last so the bindings win. */
+html.hf {
+  /* type */
+  --lib-title: 28px; --lib-card-title: 18px; --lib-body: 15px;
+  /* buttons */
+  --btn-pri-bg: var(--hf-ink); --btn-pri-fg: var(--hf-cream); --btn-h: 38px; --btn-h-l: 52px; --btn-round: 1; --btn-fs: 15px; --btn-w: 500;
+  --btn-sec-a: .07; --btn-sec-fg: var(--hf-ink);
+  /* segmented controls */
+  --seg-a: .06; --seg-on: var(--hf-cream); --seg-round: 1; --segd-on: var(--hf-ink); --segd-on-fg: var(--hf-cream);
+  /* header */
+  --frame-bg: #f4f2ec; --tab-fs: 15px; --tab-icon: 18px;
+  /* cards */
+  --card-bg-a: 1; --card-shadow: .35; --qc-r: 36px; --qc-p: 28px; --qc-bg-a: .92; --tile-r: 28px; --tile-p: 22px; --tile-bg-a: .72;
+  /* preview, KPI */
+  --prev-a: .045; --kpi-a: .42; --kpi-v: var(--hf-gain); --kpi-size: 20px;
+  /* ask bar, chips, toast, cursor, pixel mark */
+  --ask-h: 62px; --ask-w: 580px; --ask-round: 1; --chip-h: 34px; --chip-a: .06; --toast-r: 18px;
+  --cur-bg: var(--hf-ink); --cur-fg: var(--hf-cream); --cur-agent: var(--brand-accent);
+  --pix-c: var(--brand-500); --pix-needs: var(--hf-needs); --pix-speed: 1.4s;
+}
+
+/* ---------- bindings: instances read their master ---------- */
+html.hf body .ptool .pt b, html.hf body .lib-title { font-size: var(--lib-title) !important; }
+html.hf body :is(.xp-t, .xd-t) { font-size: var(--lib-card-title) !important; }
+html.hf body .xf-det .xd-t { font-size: calc(var(--lib-card-title) * 1.45) !important; }
+html.hf body :is(.xp-l, .dd-sum, .greet-sub + p) { font-size: var(--lib-body) !important; }
+
+/* primary button */
+html.hf body :is(.qb.ok, .xp-acts .xa.ok, .lv-da .pri, .xs-go, .btn-p, .ob-go, .hx-ok, .lib-btn-pri) { background: var(--btn-pri-bg) !important; color: var(--btn-pri-fg) !important; font-weight: var(--btn-w) !important; }
+html.hf body :is(.xp-acts .xa, .lv-da button, .btn-p, .btn-s, .lib-btn-pri, .lib-btn-sec) { height: var(--btn-h) !important; border-radius: calc(var(--btn-h) / 2 * var(--btn-round) + 8px * (1 - var(--btn-round))) !important; font-size: var(--btn-fs) !important; }
+html.hf body :is(.qc-f .qb, .ob-go, .lib-btn-l) { height: var(--btn-h-l) !important; border-radius: calc(var(--btn-h-l) / 2 * var(--btn-round) + 10px * (1 - var(--btn-round))) !important; }
+/* secondary button */
+html.hf body :is(.qc-f .qb:not(.ok), .xp-acts .xa:not(.ok):not(.xp-task):not([data-xa="reply"]), .lv-da .ghost, .btn-s, .hx-no, .hf-home .desk-edit, .lib-btn-sec) { background: rgba(30,33,27,var(--btn-sec-a)) !important; color: var(--btn-sec-fg) !important; }
+
+/* segmented, light and dark variants */
+html.hf body :is(.vtabs, .seg, .lv-tabs, .ibx-tabs, .lv-zoom, .lib-seg) { background: rgba(30,33,27,var(--seg-a)) !important; border-radius: calc(22px * var(--seg-round) + 10px * (1 - var(--seg-round))) !important; }
+html.hf body :is(.vtabs, .seg, .lv-tabs, .lib-seg) :is(button[aria-pressed="true"], button[aria-selected="true"]), html.hf body .vtabs .hf-thumb.cream { background: var(--seg-on) !important; }
+html.hf body :is(.ibx-tabs, .lv-zoom, .lib-seg.dark) :is(button[aria-pressed="true"], button[aria-selected="true"]) { background: var(--segd-on) !important; color: var(--segd-on-fg) !important; }
+html.hf body :is(.vtabs, .seg, .lv-tabs, .ibx-tabs, .lv-zoom, .lib-seg) button { border-radius: calc(18px * var(--seg-round) + 7px * (1 - var(--seg-round))) !important; }
+
+/* header */
+html.hf .hf-frame .fr-bg { fill: var(--frame-bg) !important; }
+html.hf.hf-framed .hf-nav button, html.hf .lib-tabs button { font-size: var(--tab-fs) !important; }
+html.hf.hf-framed .hf-nav button > svg:not(.hf-pix), html.hf .lib-tabs button > svg { width: var(--tab-icon) !important; height: var(--tab-icon) !important; }
+
+/* cards */
+html.hf body .xf .xp, html.hf body .xf-det .xf-col { background: rgba(251,250,246,var(--card-bg-a)) !important; box-shadow: 0 0 0 1px rgba(30,33,27,.05), 0 18px 36px -28px rgba(62,52,24,var(--card-shadow)) !important; }
+html.hf body .qc.front, html.hf body .lib-qc .qc { border-radius: var(--qc-r) !important; padding: var(--qc-p) !important; background: rgba(251,250,246,var(--qc-bg-a)) !important; }
+html.hf body .qc.behind { border-radius: var(--qc-r) !important; }
+html.hf body .tiles .tile, html.hf body .tiles .tile-add { border-radius: var(--tile-r) !important; }
+html.hf body .tiles .tile { padding: var(--tile-p) calc(var(--tile-p) + 2px) !important; background: rgba(251,250,246,var(--tile-bg-a)) !important; }
+
+/* preview and KPI */
+html.hf body :is(.xp-ev, .qc .ev, .xp-prog, .xp-steps, .xf-det .qd-ev, .xp-emb .xp-kv) { background: rgba(30,33,27,var(--prev-a)) !important; }
+html.hf body .xp-kpi { background: linear-gradient(90deg, rgba(214,236,107,var(--kpi-a)), rgba(214,236,107,calc(var(--kpi-a) * .45))) !important; }
+html.hf body .xp-kpi .kp-v, html.hf body .qgain .qg-v, html.hf body .qc-f .qg-v { color: var(--kpi-v) !important; }
+html.hf body .xp-kpi .kp-v { font-size: var(--kpi-size) !important; }
+
+/* ask bar, chips, toasts, cursors, pixel mark */
+html.hf body .hf-ask { height: var(--ask-h) !important; width: min(var(--ask-w), calc(100vw - 32px)) !important; border-radius: calc(var(--ask-h) / 2 * var(--ask-round) + 14px * (1 - var(--ask-round))) !important; }
+html.hf body :is(.xp-task, .lib-chip) { height: var(--chip-h) !important; border-radius: calc(var(--chip-h) / 2) !important; background: rgba(30,33,27,var(--chip-a)) !important; }
+html.hf body .hf-toast { border-radius: var(--toast-r) !important; }
+html.hf body :is(.sw-tag, .lv-cur > span) { background: var(--cur-bg) !important; color: var(--cur-fg) !important; }
+html.hf body :is(.sw-cur > svg, .lv-cur > svg) { fill: var(--cur-bg) !important; }
+html.hf body :is(.sw-cur.hf .sw-tag, .lv-cur.ag > span) { background: var(--cur-agent) !important; color: var(--brand-900) !important; }
+html.hf body .hf-pix rect { fill: var(--pix-c) !important; }
+html.hf body :is(.hf-pix-needs rect.on, .hf-need .hf-pix rect.on) { fill: var(--pix-needs) !important; }
+html.hf body .hf-pix rect.run { animation-duration: var(--pix-speed) !important; }
+
+/* ================= the Library page ================= */
+html.hf .hf-lib { position: fixed; z-index: 58; left: 8px; right: 8px; top: 54px; bottom: 8px; display: grid; grid-template-columns: 248px minmax(0, 1fr) 340px; grid-template-rows: auto minmax(0, 1fr); border-radius: 20px; background: var(--hf-bone); overflow: hidden; box-shadow: 0 0 0 1px rgba(30,33,27,.08); }
+html.hf .hf-lib[hidden] { display: none; }
+html.hf:not(.hf-framed) .hf-lib { left: 0; right: 0; top: 0; bottom: 0; border-radius: 0; }
+html.hf .lib-top { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; padding: 18px 22px 14px; border-bottom: 1px solid var(--hf-hair); }
+html.hf .lib-top .lib-title { margin: 0 auto 0 0; font-weight: 500; letter-spacing: -.025em; line-height: 1.1; }
+html.hf .lib-top small { font-size: 14px; color: var(--hf-ink-3); }
+html.hf .lib-top .lib-x { display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(30,33,27,.06); cursor: pointer; }
+html.hf .lib-side { overflow: auto; padding: 14px 10px 24px; border-right: 1px solid var(--hf-hair); }
+html.hf .lib-side h6 { margin: 14px 10px 6px; font-size: 12.5px; font-weight: 500; color: var(--hf-ink-4); }
+html.hf .lib-side button { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 36px; padding: 0 10px; border: 0; border-radius: 10px; background: none; font: inherit; font-size: 14.5px; color: var(--hf-ink-2); text-align: left; cursor: pointer; }
+html.hf .lib-side button:hover { background: rgba(30,33,27,.05); color: var(--hf-ink); }
+html.hf .lib-side button[aria-current="true"] { background: var(--hf-cream); color: var(--hf-ink); font-weight: 500; box-shadow: 0 0 0 1px rgba(30,33,27,.06); }
+html.hf .lib-side button i { width: 7px; height: 7px; border-radius: 2px; background: var(--brand-500); }
+html.hf .lib-stage { overflow: auto; padding: 28px 32px 48px; background-image: radial-gradient(circle, rgba(30,33,27,.1) 1px, transparent 1.2px); background-size: 22px 22px; }
+html.hf .lib-stage > header { margin-bottom: 20px; }
+html.hf .lib-stage > header b { display: block; font-size: 22px; font-weight: 500; letter-spacing: -.02em; }
+html.hf .lib-stage > header p { margin: 6px 0 0; max-width: 620px; font-size: 15px; line-height: 1.5; color: var(--hf-ink-3); }
+html.hf .lib-var { margin-bottom: 18px; }
+html.hf .lib-var > span { display: block; margin-bottom: 8px; font-size: 12.5px; font-weight: 500; color: var(--hf-ink-4); }
+html.hf .lib-var > div { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 20px; border-radius: 20px; background: rgba(251,250,246,.55); box-shadow: 0 0 0 1px rgba(30,33,27,.06); }
+html.hf .lib-var .xf { width: 100%; height: auto !important; }
+html.hf .lib-var .xf .xp { width: 100%; max-width: 680px; margin: 0 !important; }
+html.hf .lib-var .lib-qc { width: 100%; max-width: 600px; }
+html.hf .lib-var .lib-qc .qc { position: relative !important; inset: auto !important; transform: none !important; opacity: 1 !important; }
+html.hf .lib-var .tiles { display: block; width: 100%; max-width: 600px; }
+html.hf .lib-var .hf-ask.lib-ask { position: relative !important; left: auto !important; bottom: auto !important; transform: none !important; }
+html.hf .lib-var .hf-toast.lib-toast { position: relative !important; opacity: 1 !important; transform: none !important; }
+html.hf .lib-sw { display: flex; flex-wrap: wrap; gap: 10px; }
+html.hf .lib-sw span { display: flex; flex-direction: column; gap: 6px; width: 104px; font-size: 12.5px; color: var(--hf-ink-3); }
+html.hf .lib-sw span i { height: 56px; border-radius: 14px; box-shadow: inset 0 0 0 1px rgba(30,33,27,.08); }
+html.hf .lib-type p { margin: 0; color: var(--hf-ink); }
+html.hf .lib-tabs { display: flex; align-items: flex-end; gap: 2px; padding: 8px 12px 0; border-radius: 14px 14px 0 0; background: var(--frame-bg); }
+html.hf .lib-tabs button { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border: 0; border-radius: 12px 12px 0 0; background: none; font: inherit; color: var(--hf-ink-3); }
+html.hf .lib-tabs button svg { fill: currentColor; }
+html.hf .lib-tabs button.on { background: var(--hf-bone); color: var(--hf-ink); font-weight: 500; }
+html.hf .lib-btn-pri, html.hf .lib-btn-sec { display: inline-flex; align-items: center; padding: 0 18px; border: 0; font: inherit; cursor: pointer; }
+html.hf .lib-chip { display: inline-flex; align-items: center; gap: 7px; padding: 0 12px; font-size: 13.5px; color: var(--hf-ink-2); }
+html.hf .lib-cur { position: relative; display: inline-flex; align-items: flex-start; }
+html.hf .lib-cur.sw-cur { position: relative !important; opacity: 1 !important; transform: none !important; }
+
+html.hf .lib-props { overflow: auto; padding: 20px 20px 28px; border-left: 1px solid var(--hf-hair); background: rgba(251,250,246,.5); }
+html.hf .lib-props h5 { margin: 0 0 4px; font-size: 16px; font-weight: 500; }
+html.hf .lib-props > p { margin: 0 0 16px; font-size: 13.5px; line-height: 1.45; color: var(--hf-ink-3); }
+html.hf .lib-p { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 10px; padding: 10px 0; border-top: 1px solid var(--hf-hair); }
+html.hf .lib-p label { font-size: 14px; color: var(--hf-ink); }
+html.hf .lib-p label small { display: block; font-size: 12px; color: var(--hf-ink-4); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+html.hf .lib-p output { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--hf-ink-2); }
+html.hf .lib-p input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--brand-500); }
+html.hf .lib-p input[type=color] { width: 44px; height: 30px; padding: 0; border: 0; border-radius: 8px; background: none; cursor: pointer; }
+html.hf .lib-p select { height: 32px; border: 0; border-radius: 10px; padding: 0 8px; background: rgba(30,33,27,.06); font: inherit; font-size: 14px; }
+html.hf .lib-p.changed label::after { content: " · changed"; font-size: 12px; color: var(--brand-ink); }
+html.hf .lib-p .lib-rs { grid-column: 2; justify-self: end; border: 0; background: none; font: inherit; font-size: 12.5px; color: var(--hf-ink-3); text-decoration: underline; cursor: pointer; }
+html.hf .lib-used { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--hf-hair); }
+html.hf .lib-used b { display: block; margin-bottom: 8px; font-size: 13.5px; font-weight: 500; color: var(--hf-ink-3); }
+html.hf .lib-used button { display: inline-flex; margin: 0 6px 6px 0; height: 30px; align-items: center; padding: 0 12px; border: 0; border-radius: 15px; background: rgba(30,33,27,.06); font: inherit; font-size: 13px; color: var(--hf-ink-2); cursor: pointer; }
+html.hf .lib-used button:hover { background: var(--hf-ink); color: var(--hf-cream); }
+html.hf .lib-top button.lib-act { height: 38px; padding: 0 14px; border: 0; border-radius: 19px; background: rgba(30,33,27,.06); font: inherit; font-size: 14px; color: var(--hf-ink-2); cursor: pointer; }
+html.hf .lib-top button.lib-act:hover { background: rgba(30,33,27,.1); color: var(--hf-ink); }
+html.hf .lib-top button.lib-act[disabled] { opacity: .4; cursor: default; }
+html.hf.hf-libopen .hf-ask, html.hf.hf-libopen .hf-toasts { z-index: 59; }
+html.hf .lib-var :is(.xf, .lib-qc, .tiles, .hf-ask) { pointer-events: none; }
+html.hf body .tiles .tile-add .pl, html.hf body .tile-add .pl { width: 40px !important; height: 40px !important; border-radius: 50% !important; background: rgba(30,33,27,.06) !important; color: var(--hf-ink-2) !important; box-shadow: none !important; }
+html.hf body .tile-add:hover .pl { background: var(--hf-ink) !important; color: var(--hf-cream) !important; }

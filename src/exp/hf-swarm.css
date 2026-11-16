@@ -1,0 +1,49 @@
+/* ================= HF1 swarm intro ================= */
+html.hf.hf-swarming .sw-hide { opacity: 0 !important; transition: none !important; }
+html.hf.hf-swarming .hf-home, html.hf.hf-swarming .hf-top, html.hf.hf-swarming .hf-ask { animation: none !important; }
+html.hf .sw-in.sw-fill { animation: swFill .55s var(--hf-ease) both; }
+html.hf .sw-in.sw-fade { animation: swFade .5s var(--hf-ease) both; }
+html.hf .sw-in.sw-pop { animation: swPop .42s cubic-bezier(.34,1.56,.64,1) both; }
+html.hf .sw-in.sw-wipe { animation: swWipe .5s var(--hf-ease) both; }
+@keyframes swFill { from { opacity: 0; filter: blur(8px); transform: scale(.985); } to { opacity: 1; filter: none; transform: none; } }
+@keyframes swFade { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: none; } }
+@keyframes swPop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes swWipe { from { opacity: .2; clip-path: inset(0 100% 0 0 round 12px); } to { opacity: 1; clip-path: inset(0 0 0 0 round 12px); } }
+html.hf .sw-typing { position: relative; }
+html.hf .sw-typing::after { content: ""; display: inline-block; width: 2px; height: .95em; margin-left: 2px; vertical-align: -.1em; background: var(--brand-500); animation: swCaret .7s steps(1) infinite; }
+@keyframes swCaret { 50% { opacity: 0; } }
+
+/* the layer above everything */
+html.hf .hf-sw { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity .5s var(--hf-ease); }
+html.hf .hf-sw.on { opacity: 1; }
+html.hf .hf-sw.out { opacity: 0; transition-duration: .6s; }
+html.hf .sw-core { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 16px; transition: opacity .6s var(--hf-ease), transform .6s var(--hf-ease); }
+html.hf .sw-core > .hfo-w { filter: drop-shadow(0 18px 30px rgba(31,42,20,.45)); }
+html.hf .sw-core::before { content: ""; position: absolute; left: 50%; top: 32px; width: 220px; height: 220px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(214,236,107,.45), rgba(214,236,107,.12) 45%, transparent 70%); z-index: -1; animation: swBreath 2.4s var(--hf-ease) infinite alternate; }
+@keyframes swBreath { to { transform: translate(-50%, -50%) scale(1.12); } }
+html.hf .sw-say { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 20px; background: var(--hf-cream); box-shadow: var(--hf-lift); font-size: 15px; }
+html.hf .sw-say b { font-weight: 500; }
+html.hf .hf-sw.burst .sw-core { opacity: 0; transform: translate(-50%, -50%) scale(.7); }
+html.hf .sw-skip { position: absolute; right: 24px; bottom: 24px; height: 38px; padding: 0 16px; border: 0; border-radius: 19px; background: var(--hf-glass); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: var(--hf-float); font: inherit; font-size: 14px; color: var(--hf-ink-2); cursor: pointer; pointer-events: auto; }
+html.hf .sw-skip:hover { background: var(--hf-cream); color: var(--hf-ink); }
+html.hf .hf-sw.leaving .sw-skip { opacity: 0; transition: opacity .3s; }
+
+/* agent cursors: same as the Live picture's presence */
+html.hf .sw-cur { position: absolute; left: 0; top: 0; display: flex; align-items: flex-start; opacity: 0; transition-property: transform, opacity; transition-timing-function: cubic-bezier(.22,.8,.24,1); will-change: transform; }
+html.hf .sw-cur.on { opacity: 1; }
+html.hf .sw-cur > svg { fill: var(--hf-ink); stroke: var(--hf-cream); stroke-width: 1.4; filter: drop-shadow(0 2px 3px rgba(30,33,27,.3)); }
+html.hf .sw-tag { display: inline-flex; align-items: center; gap: 5px; margin: 14px 0 0 -4px; padding: 3px 9px 3px 3px; border-radius: 12px; background: var(--hf-ink); color: var(--hf-cream); font-size: 12px; font-weight: 500; white-space: nowrap; box-shadow: 0 6px 14px -6px rgba(30,33,27,.5); }
+html.hf .sw-px { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 5px; background: rgba(251,250,246,.85); overflow: hidden; }
+html.hf .sw-px svg { width: 13px; height: 13px; }
+html.hf .sw-tag .hfo-w, html.hf .sw-tag .hfo { width: 16px !important; height: 16px !important; }
+html.hf .sw-cur.hf > svg { fill: var(--brand-500); }
+html.hf .sw-cur.hf .sw-tag { background: var(--brand-accent); color: var(--brand-900); }
+
+/* the frame an agent draws */
+html.hf .sw-box { position: absolute; border: 1.5px solid var(--brand-500); border-radius: min(var(--rad, 12px), 28px); background: rgba(214,236,107,.07); transition-property: width, height, opacity; transition-timing-function: cubic-bezier(.22,.8,.24,1); }
+html.hf .sw-box.out { opacity: 0; transition-duration: .4s !important; }
+html.hf .sw-box .h { position: absolute; width: 7px; height: 7px; border-radius: 2px; background: var(--hf-cream); border: 1.5px solid var(--brand-500); }
+html.hf .sw-box .tl { left: -4px; top: -4px; } html.hf .sw-box .tr { right: -4px; top: -4px; }
+html.hf .sw-box .bl { left: -4px; bottom: -4px; } html.hf .sw-box .br { right: -4px; bottom: -4px; }
+html.hf .sw-box em { position: absolute; left: 50%; bottom: -26px; transform: translateX(-50%); padding: 2px 8px; border-radius: 8px; background: var(--brand-700); color: var(--brand-accent); font-size: 11.5px; font-style: normal; font-variant-numeric: tabular-nums; white-space: nowrap; }
+html.hf.hf-swarming:not(.sw-act) #actPrev { opacity: 0 !important; }

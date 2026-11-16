@@ -5072,7 +5072,7 @@ function layoutTiles(ids) {
 function tilesHTML() {
   if (!S.role || S.building) return layoutTiles(S.role ? S.home : ROLES.ceo.blocks).map(([, w]) => `<div class="tile ghost${w ? ' w2' : ''}"></div>`).join('');
   const anim = S.animBlocks; S.animBlocks = null; let k = 0;
-  return layoutTiles(S.home).map(([b, w]) => { const a = !!(anim && anim.has(b)); return tileHTML(b, w, a ? (k++) * 90 : null); }).join('') + `<button type="button" class="tile-add" id="addTile" data-addtile><span class="pl">${ic('plus')}</span><span class="tx"><b>Add a widget</b><small>Tell HF1 what you want to see. It builds it in the same style.</small></span>${hfOrb(26)}</button>`;
+  return layoutTiles(S.home).map(([b, w]) => { const a = !!(anim && anim.has(b)); return tileHTML(b, w, a ? (k++) * 90 : null); }).join('') + `<button type="button" class="tile-add" id="addTile" data-addtile><span class="pl">${ic('plus')}</span><span class="tx"><b>Add a widget</b><small>Say what you want to see and it will appear here.</small></span></button>`;
 }
 function tileHTML(b, w, delay) {
   const B = BLOCKS[b], T = TILE[b];
@@ -6295,7 +6295,7 @@ function inboxThreads() {
   return T;
 }
 const IFILT = [['all', 'All'], ['attention', 'Needs attention'], ['active', 'Active'], ['done', 'Completed']];
-const imatch = (t, f) => f === 'all' || (f === 'hf' ? (t.who === 'johnny' || t.kind === 'hf') : f === 'mine' ? !!(t.h && ['approved', 'hf1', 'msg'].includes(t.h.dec)) : f === 'attention' ? t.st === 'attention' : f === 'active' ? ['active', 'loop'].includes(t.st) : ['done', 'info'].includes(t.st));
+const imatch = (t, f) => f === 'all' || (f === 'unread' ? !!t.unread : f === 'hf' ? (t.who === 'johnny' || t.kind === 'hf') : f === 'mine' ? !!(t.h && ['approved', 'hf1', 'msg'].includes(t.h.dec)) : f === 'attention' ? t.st === 'attention' : f === 'active' ? ['active', 'loop'].includes(t.st) : ['done', 'info'].includes(t.st));
 function iAvatar(t, s) { return t.ic ? `<span class="ia-ic">${t.ic}</span>` : t.who === 'johnny' ? hfOrb(s) : av(t.who, s); }
 function iStatus(t) {
   if (t.kind === 'live') return `<span class="hs run"><span class="pulse"></span>${liveProgress(t.a)}%</span>`;
@@ -8458,7 +8458,7 @@ function accountMenu() {
     { ic: ic('globe'), t: 'Language', s: S.lang, fn: () => setTimeout(langMenu, 0) },
     { ic: ic('gauge'), t: 'Usage', s: 'What HF1 and your agents used this month', fn: () => { go('me'); setTimeout(() => { const u = $('#usageCard'); if (u) u.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 60); } },
     { ic: ic('help'), t: 'Contact support', s: 'Talk to the HF1 team', fn: () => toast('Support chat isn’t part of this prototype. It opens a conversation with the HF1 team.') },
-    { ic: ic('logout'), t: 'Log out', fn: () => toast('Logging out isn’t part of this prototype.') }
+    { ic: ic('logout'), t: 'Log out', fn: () => { try { sessionStorage.clear(); localStorage.removeItem('hf1-state'); } catch (e) {} if (location.search) location.href = location.pathname; else location.reload(); } }
   ]);
 }
 function langMenu() {

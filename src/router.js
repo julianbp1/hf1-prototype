@@ -11,17 +11,19 @@
   const asRole = async () => { if (ROLE && VIEWS[ROLE] && S.vas !== ROLE) { setView(ROLE); await w(700); } };
   const done = async () => { S.ob.done = true; S.panel = null; renderAll(); await w(600); await asRole(); };
   const onboard = async () => {
-    await w(2600); click('[data-sconnect="github"]'); await w(1600); click('[data-setupdone]'); await w(2200); click('[data-frbuild]'); await w(9000);
+    await w(2600); await hello(); click('[data-sconnect="github"]'); await w(1600); click('[data-setupdone]'); await w(2200); click('[data-frbuild]'); await w(9000); if (window.__hfSwarm) { window.__hfSwarm.skip(); await w(800); }
     if (!S.ob.done) await done(); else await asRole();
     S.frHint = false; renderAll(); await w(800);
   };
   const view = (pg, v) => async () => { await done(); if (v) S.view[pg] = v; go(pg); renderAll(); await w(1200); };
   const prof = (k, t) => async () => { await done(); openProfile(k, t); await w(1200); };
+  const hello = async () => { const b = document.querySelector('[data-hfhello]'); if (b) { b.click(); await w(1800); } };
   const pick = (sel, fn) => { const e = [...document.querySelectorAll(sel)].find(fn); if (!e) throw new Error('missing ' + sel); return e; };
-  const toWidgets = async () => { await w(2600); click('[data-sconnect="github"]'); await w(1600); click('[data-setupdone]'); };
+  const toWidgets = async () => { await w(2600); await hello(); click('[data-sconnect="github"]'); await w(1600); click('[data-setupdone]'); };
   const deal = async () => { await done(); openEntity('flowpage:deal'); await w(1300); };
   const SCR = [
-    ['Onboarding', 'Connect tools', async () => { await w(3200); }],
+    ['Onboarding', 'Welcome', async () => { await w(3200); }],
+    ['Onboarding', 'Connect tools', async () => { await w(2600); await hello(); await w(1400); }],
     ['Onboarding', 'Pick your widgets', async () => { await toWidgets(); await w(3000); }],
     ['Onboarding', 'Building your desktop', async () => { await toWidgets(); await w(2200); click('[data-frbuild]'); await w(1400); }],
     ['Home', 'Queue', onboard],
@@ -58,7 +60,13 @@
     ['Agents', 'Agent · Mark · Settings', prof('a:mark', 'settings')],
     ['Agents', 'New agent', async () => { await done(); openBuilder(false); await w(1500); }],
     ['Agents', 'Talk to an agent', async () => { await prof('a:nova')(); talkTo('nova'); await w(1200); }],
-    ['Organization', 'Map', view('org', 'canvas')],
+    ['Live picture', 'Company', view('org', 'live')],
+    ['Live picture', 'Team', async () => { await view('org', 'live')(); document.querySelector('[data-lvlvl="team"]').click(); await w(900); }],
+    ['Live picture', 'You', async () => { await view('org', 'live')(); document.querySelector('[data-lvlvl="me"]').click(); await w(900); }],
+    ['Live picture', 'Partners', async () => { await view('org', 'live')(); document.querySelector('[data-lvlvl="partners"]').click(); await w(900); }],
+    ['Organization', 'Map', view('org', 'map')],
+    ['Library', 'Components', async () => { await done(); if (window.__hfLib) window.__hfLib.open(); await w(900); }],
+    ['Library', 'Post card', async () => { await done(); if (window.__hfLib) { window.__hfLib.open(); document.querySelector('[data-libc="post"]').click(); } await w(900); }],
     ['Organization', 'List', view('org', 'db')],
     ['Tools', 'Cards', view('tools', 'cards')],
     ['Tools', 'List', view('tools', 'db')],

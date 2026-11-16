@@ -8,7 +8,7 @@ const b = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.
 const p = await b.newPage(); await p.setViewport(VP);
 p.on('pageerror', e => console.log('PAGEERROR', e.message));
 await p.goto(`${a.base || 'http://localhost:3000'}/${page0}?screen=${slug}&role=${a.role || 'owner'}`, { waitUntil: 'load' });
-await p.waitForFunction('window.__screenReady === true', { timeout: 90000 });
+await p.waitForFunction('window.__screenReady === true', { timeout: 90000 }).catch(async e => { console.log('TIMEOUT'); });
 await new Promise(r => setTimeout(r, 600));
 if (a.before) { await p.evaluate(a.before); await new Promise(r => setTimeout(r, 900)); }
 if (a.js) console.log(JSON.stringify(await p.evaluate(a.js), null, 1));

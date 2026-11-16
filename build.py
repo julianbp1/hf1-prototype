@@ -28,6 +28,11 @@ def build(exp=None):
             layer_css.append(r(e_css))
         if e_js.exists():
             js.insert(-1, r(e_js))  # before router.js, so ?screen= links still work
+        # extra pieces of the same experiment: src/exp/<exp>-*.css / .js, in name order
+        for f in sorted((src / 'exp').glob(f'{exp}-*.css')):
+            layer_css.append(r(f))
+        for f in sorted((src / 'exp').glob(f'{exp}-*.js')):
+            js.insert(-1, r(f))
     css = css.replace('</style>', '\n'.join(layer_css) + '\n</style>', 1)
     head_end = s.index('<body>') + len('<body>')
     body = s[head_end:].rstrip()
@@ -39,6 +44,8 @@ def build(exp=None):
     body = body[:j] + '\n'.join(js) + '\n' + body[j:]
     title = f'HF1 prototype · {exp}' if exp else 'HF1 prototype'
     head = s[:head_end].replace('<head>', f'<head><title>{title}</title>', 1)
+    if exp == 'hf':  # Motion (motion.dev) for springs and smooth transitions, read as window.Motion
+        head = head.replace('</head>', '<script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script></head>', 1)
     out = root / ('dist/exp-%s.html' % exp if exp else 'index.html')
     out.parent.mkdir(exist_ok=True)
     out.write_text(head + body + '</body></html>')

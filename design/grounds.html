@@ -1,0 +1,330 @@
+<title>HF1 Grounds</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: a workbench. The ground fills the left; one column of controls on the right; presets as a strip of swatches under the ground. */
+:root {
+  --bone: #edebe4; --cream: #fbfaf6; --ink: #1e211b; --ink-2: #4e5247; --ink-3: #62655a;
+  --moss: #3e4a2c; --olive: #5d6930; --hair: rgba(30,33,27,.08); --well: rgba(30,33,27,.05); --pill: rgba(30,33,27,.07);
+  --serif: "Instrument Serif", Georgia, serif; --sans: "Inter", system-ui, -apple-system, sans-serif;
+  --ease: cubic-bezier(.23,1,.32,1);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: var(--bone); color: var(--ink); font: 15px/1.45 var(--sans); letter-spacing: -.006em; -webkit-font-smoothing: antialiased;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 28px; }
+.wrap { max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+h1 { margin: 0; font: 400 44px/1 var(--serif); letter-spacing: -.02em; text-wrap: balance; }
+h1 i { color: var(--olive); }
+.lede { margin: 6px 0 0; max-width: 62ch; color: var(--ink-2); font-size: 16px; }
+.bench { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
+.stage { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.frame { position: relative; border-radius: 28px; overflow: hidden; background: var(--cream); box-shadow: 0 0 0 1px var(--hair), 0 30px 60px -30px rgba(62,52,24,.35); }
+.frame canvas { display: block; width: 100%; height: auto; }
+.tag { position: absolute; left: 14px; bottom: 14px; display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 16px; background: rgba(251,250,246,.86); backdrop-filter: blur(10px); font: 500 13px var(--sans); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.presets { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.pre { padding: 0; border: 0; background: none; cursor: pointer; display: flex; flex-direction: column; gap: 6px; text-align: left; font: inherit; color: var(--ink-2); }
+.pre canvas { width: 100%; aspect-ratio: 4/3; border-radius: 16px; display: block; box-shadow: 0 0 0 1px var(--hair); transition: transform .3s var(--ease), box-shadow .3s; }
+.pre:hover canvas { transform: translateY(-2px); }
+.pre[aria-pressed="true"] canvas { box-shadow: 0 0 0 2px var(--cream), 0 0 0 4px var(--ink); }
+.pre span { font-size: 13px; }
+.pre b { display: block; font-weight: 500; color: var(--ink); font-size: 14px; }
+aside { background: rgba(251,250,246,.8); border-radius: 28px; box-shadow: 0 0 0 1px var(--hair); padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.grp { display: flex; flex-direction: column; gap: 8px; }
+.lbl { font-size: 13px; font-weight: 500; color: var(--ink-3); letter-spacing: .02em; }
+.row { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: var(--pill); color: var(--ink); font: 500 14px var(--sans); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
+.sw { width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; box-shadow: inset 0 0 0 1px rgba(30,33,27,.1); }
+.sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--cream), 0 0 0 4px var(--ink); }
+.sl { display: grid; grid-template-columns: 74px 1fr 30px; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }
+.sl output { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-3); font-size: 13px; }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; background: var(--pill); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--cream); box-shadow: 0 0 0 1px rgba(30,33,27,.2), 0 2px 6px rgba(30,33,27,.2); cursor: pointer; }
+input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; border: 0; background: var(--cream); box-shadow: 0 0 0 1px rgba(30,33,27,.2); }
+.acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { height: 42px; padding: 0 16px; border: 0; border-radius: 21px; font: 500 15px var(--sans); cursor: pointer; background: var(--pill); color: var(--ink); }
+.btn.p { background: var(--ink); color: var(--cream); }
+.btn:focus-visible, .chip:focus-visible, .sw:focus-visible, .pre:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.note { font-size: 13px; color: var(--ink-3); min-height: 18px; }
+.mix { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.mix div { background: rgba(251,250,246,.6); border-radius: 20px; padding: 14px 16px; box-shadow: 0 0 0 1px var(--hair); font-size: 14px; color: var(--ink-2); }
+.mix b { display: block; color: var(--ink); font-weight: 500; margin-bottom: 2px; }
+@media (max-width: 960px) {
+  .bench { grid-template-columns: 1fr; }
+  .presets { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mix { grid-template-columns: 1fr; }
+  h1 { font-size: 34px; }
+}
+@media (prefers-reduced-motion: reduce) { .pre canvas { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>HF1 Grounds <i>· sun, shade, paper</i></h1>
+      <p class="lede">Backgrounds for the platform, generated from a seed. Dia’s dappled sunlight and shade, Base44’s grain and paper, halftone print dots, and a watercolour wash, all in moss and bone. The shade sways and the grain breathes, slowly. Same seed, same ground.</p>
+    </div>
+  </header>
+
+  <div class="bench">
+    <div class="stage">
+      <div class="frame"><canvas id="cv" width="1600" height="900" aria-label="Generated background"></canvas><span class="tag" id="tag"></span></div>
+      <div class="presets" id="presets"></div>
+    </div>
+
+    <aside>
+      <div class="grp"><span class="lbl">Shadows</span><div class="row" id="shp"></div></div>
+      <div class="grp"><span class="lbl">Palette</span><div class="row" id="pal"></div></div>
+      <div class="grp"><span class="lbl">Shape</span><div class="row" id="asp"></div></div>
+      <div class="grp"><span class="lbl">Layers</span><div id="sliders" class="grp"></div></div>
+      <div class="grp"><span class="lbl">Seed</span>
+        <div class="acts"><button class="btn" id="shuffle" type="button">New seed</button><button class="btn" id="copy" type="button">Copy recipe</button></div>
+      </div>
+      <div class="acts"><button class="btn" id="motion" type="button" aria-pressed="true">Motion on</button><button class="btn p" id="save" type="button">Export PNG · 2×</button></div>
+      <div class="note" id="note" role="status"></div>
+    </aside>
+  </div>
+
+  <div class="mix">
+    <div><b>From Dia</b>Shade falling across a warm field: leaves, palm fronds, branches, blinds and lattice, softly out of focus and gently moving.</div>
+    <div><b>From Base44</b>Grain and paper flecks that make a flat colour feel printed. A watercolour wash adds pigment pooling at the edges.</div>
+    <div><b>In HF1</b>Moss, bone, lime and honey only. Use one ground per screen: hero tiles, empty states, onboarding, share images.</div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const PAL = {
+    bone:  { name: 'Bone',  bg: '#edebe4', shade: '#5c5a40', glow: ['#d6ec6b', '#f2c7a2', '#a9b78d'], wash: ['#a9b78d', '#d6ec6b', '#f2c7a2'] },
+    moss:  { name: 'Moss',  bg: '#3e4a2c', shade: '#10150a', glow: ['#6e7b3e', '#d6ec6b', '#8fa476'], wash: ['#6e7b3e', '#2a331d', '#a9b78d'] },
+    honey: { name: 'Honey', bg: '#efc85a', shade: '#7a4e10', glow: ['#f6dc8c', '#f2c7a2', '#d6ec6b'], wash: ['#d98a2b', '#f6dc8c', '#c58474'] },
+    lime:  { name: 'Lime',  bg: '#d6ec6b', shade: '#3f4d10', glow: ['#f1f7c6', '#a9b78d', '#fbfaf6'], wash: ['#a9b78d', '#6e7b3e', '#f1f7c6'] },
+    clay:  { name: 'Clay',  bg: '#e3b5a0', shade: '#5e3020', glow: ['#f6dcc0', '#f2c7a2', '#d6ec6b'], wash: ['#c58474', '#f2c7a2', '#a9b78d'] },
+    night: { name: 'Night', bg: '#1e211b', shade: '#000000', glow: ['#3e4a2c', '#6e7b3e', '#d6ec6b'], wash: ['#3e4a2c', '#6e7b3e', '#1e211b'] }
+  };
+  const ASP = { wide: [1600, 900, '16:9'], square: [1200, 1200, '1:1'], tall: [900, 1600, '9:16'], banner: [1800, 600, '3:1'] };
+  const SHAPES = [['leaves', 'Leaves'], ['palm', 'Palm fronds'], ['branch', 'Branches'], ['blinds', 'Blinds'], ['lattice', 'Lattice']];
+  const LAYERS = [['shade', 'Shade'], ['size', 'Shade size'], ['soft', 'Softness'], ['glow', 'Glow'], ['wash', 'Watercolour'], ['grain', 'Grain'], ['tone', 'Halftone'], ['dot', 'Dot size'], ['grunge', 'Flecks'], ['sway', 'Movement']];
+  const PRESETS = [
+    { id: 'sun', name: 'Sun through leaves', sub: 'Dia', pal: 'honey', shapes: ['leaves'], shade: 45, size: 55, soft: 60, glow: 40, wash: 15, grain: 35, grunge: 10, sway: 45 },
+    { id: 'palms', name: 'Palm shade', sub: 'Dia', pal: 'bone', shapes: ['palm', 'leaves'], shade: 35, size: 75, soft: 70, glow: 60, wash: 20, grain: 30, grunge: 5, sway: 40 },
+    { id: 'blinds', name: 'Afternoon blinds', sub: 'Mix', pal: 'clay', shapes: ['blinds', 'branch'], shade: 35, size: 60, soft: 55, glow: 45, wash: 25, grain: 40, grunge: 15, sway: 30 },
+    { id: 'paper', name: 'Moss paper', sub: 'Base44', pal: 'moss', shapes: ['branch'], shade: 25, size: 85, soft: 85, glow: 50, wash: 45, grain: 55, tone: 40, dot: 35, grunge: 45, sway: 25 },
+    { id: 'wash', name: 'Lime wash', sub: 'Watercolour', pal: 'lime', shapes: ['leaves'], shade: 20, size: 90, soft: 90, glow: 30, wash: 80, grain: 45, grunge: 20, sway: 30 },
+    { id: 'dusk', name: 'Night lattice', sub: 'Mix', pal: 'night', shapes: ['lattice', 'leaves'], shade: 35, size: 70, soft: 65, glow: 70, wash: 30, grain: 45, grunge: 20, sway: 35 }
+  ];
+
+  PRESETS.forEach(p => { p.tone = p.tone || 0; p.dot = p.dot || 40; });
+  const st = Object.assign({ seed: 4821, asp: 'wide', motion: true }, PRESETS[1]);
+  try { const s = JSON.parse(localStorage.getItem('hf-grounds4') || 'null'); if (s && PAL[s.pal] && Array.isArray(s.shapes)) Object.assign(st, s); } catch (e) {}
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; if (reduce) st.motion = false;
+
+  const rng = s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const hexA = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+  const mk = (w, h) => { const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); return c; };
+
+  /* ---------- scene: everything random is decided once per seed, so motion only moves it ---------- */
+  function scene(o, W, H) {
+    const r = rng(o.seed), u = Math.min(W, H) / 900, ls = (.6 + Math.pow(o.size / 100, 1.5) * 5) * u;
+    const items = [];
+    const n = Math.round(6 + 10 * (1 - o.size / 160));
+    if (o.shapes.includes('leaves')) for (let k = 0; k < n; k++) {
+      const cx = r() * W * 1.2 - W * .1, cy = r() * H * 1.2 - H * .1, leaves = [], spread = (60 + r() * 140) * ls;
+      for (let j = 0, m = 6 + Math.floor(r() * 10); j < m; j++) { const a = r() * 6.283, d = r() * spread; leaves.push([Math.cos(a) * d, Math.sin(a) * d, r() * 3.14, (30 + r() * 60) * ls, (12 + r() * 22) * ls]); }
+      items.push({ t: 'leaves', x: cx, y: cy, leaves, ph: r() * 6.283, amp: (.6 + r()) });
+    }
+    if (o.shapes.includes('palm')) for (let k = 0, m = 2 + Math.floor(r() * 3); k < m; k++) {
+      const edge = r() < .5; const px = edge ? (r() < .5 ? -W * .02 : W * 1.02) : r() * W, py = edge ? r() * H : (r() < .5 ? -H * .02 : H * 1.02);
+      items.push({ t: 'palm', x: px, y: py, a: Math.atan2(H * (.3 + r() * .4) - py, W * (.3 + r() * .4) - px) + (r() - .5) * .6, len: (380 + r() * 380) * ls, ph: r() * 6.283, amp: .8 + r() * .6, seed: r() });
+    }
+    if (o.shapes.includes('branch')) for (let k = 0, m = 2 + Math.floor(r() * 3); k < m; k++) {
+      const segs = []; let x = W * (.1 + r() * .8), y = -20 * u, a = 1.1 + r() * .9;
+      for (let i = 0; i < 9; i++) { const l = (70 + r() * 90) * ls; const nx = x + Math.cos(a) * l, ny = y + Math.sin(a) * l; segs.push([x, y, nx, ny, (14 - i * 1.3) * u, r() < .55 ? r() : -1]); x = nx; y = ny; a += (r() - .5) * .8; }
+      items.push({ t: 'branch', segs, ph: r() * 6.283, amp: .7 + r() * .5 });
+    }
+    if (o.shapes.includes('blinds')) items.push({ t: 'blinds', a: -.35 + r() * .3, gap: (60 + r() * 40) * ls, ph: r() * 6.283, amp: 1 });
+    if (o.shapes.includes('lattice')) items.push({ t: 'lattice', a: .55 + r() * .3, gap: (110 + r() * 60) * ls, ph: r() * 6.283, amp: 1 });
+    const glows = [0, 1, 2].map(i => ({ x: .15 + r() * .8, y: r() * .9, rad: .35 + r() * .35, c: i, ph: r() * 6.283 }));
+    return { items, glows, u, ls };
+  }
+
+  function drawShade(c, sc, o, t, W, H) {
+    const sw = o.sway / 100, sp = .00045; // slow
+    for (const it of sc.items) {
+      const wob = Math.sin(t * sp * it.amp + it.ph) * sw, wob2 = Math.cos(t * sp * .7 * it.amp + it.ph) * sw;
+      if (it.t === 'leaves') {
+        c.save(); c.translate(it.x + wob * 14 * sc.u, it.y + wob2 * 10 * sc.u); c.rotate(wob * .04);
+        for (const [x, y, a, rx, ry] of it.leaves) { c.save(); c.translate(x, y); c.rotate(a + wob * .12); c.beginPath(); c.ellipse(0, 0, rx, ry, 0, 0, 6.283); c.fill(); c.restore(); }
+        c.restore();
+      } else if (it.t === 'palm') {
+        c.save(); c.translate(it.x, it.y); c.rotate(it.a + wob * .05);
+        c.lineWidth = 6 * sc.ls; c.beginPath(); c.moveTo(0, 0); c.lineTo(it.len, 0); c.stroke();
+        const fr = rng(Math.floor(it.seed * 1e6));
+        for (let i = 2; i < 30; i++) { const p = i / 30 * it.len, L = (1 - i / 34) * it.len * .32 * (0.85 + fr() * .3); for (const sgn of [-1, 1]) {
+          const ang = sgn * (.9 - i * .012) + wob2 * .08 * sgn; c.beginPath(); c.moveTo(p, 0); c.quadraticCurveTo(p + Math.cos(ang) * L * .6, Math.sin(ang) * L * .5, p + Math.cos(ang) * L * .9 + L * .2, Math.sin(ang) * L); c.lineWidth = (9 - i * .22) * sc.ls; c.stroke(); } }
+        c.restore();
+      } else if (it.t === 'branch') {
+        c.save(); c.lineCap = 'round';
+        it.segs.forEach(([x1, y1, x2, y2, w, leaf], i) => {
+          const d = wob * (i + 1) * 3 * sc.u;
+          c.lineWidth = Math.max(2 * sc.u, w * sc.ls / sc.u); c.beginPath(); c.moveTo(x1 + d * .8, y1); c.lineTo(x2 + d, y2); c.stroke();
+          if (leaf >= 0) { c.save(); c.translate(x2 + d, y2); c.rotate(leaf * 6.283 + wob2 * .2); c.beginPath(); c.ellipse(26 * sc.ls, 0, 30 * sc.ls, 11 * sc.ls, 0, 0, 6.283); c.fill(); c.restore(); }
+        });
+        c.restore();
+      } else if (it.t === 'blinds' || it.t === 'lattice') {
+        const D = Math.hypot(W, H);
+        const dirs = it.t === 'lattice' ? [it.a, it.a + 1.571] : [it.a];
+        for (const a of dirs) { c.save(); c.translate(W / 2, H / 2); c.rotate(a); const off = (wob * it.gap * .35) % it.gap;
+          for (let y = -D; y < D; y += it.gap) c.fillRect(-D, y + off, 2 * D, it.gap * (it.t === 'lattice' ? .18 : .42));
+          c.restore(); }
+      }
+    }
+  }
+
+  /* watercolour: deformed blobs layered at low alpha, pigment pooling at the edges */
+  function wash(o, W, H) {
+    const out = mk(W, H), c = out.getContext('2d'), r = rng(o.seed + 31), p = PAL[o.pal], amt = o.wash / 100, u = Math.min(W, H) / 900;
+    if (amt <= 0) return out;
+    const blob = (cx, cy, rad) => { let pts = []; for (let i = 0; i < 10; i++) { const a = i / 10 * 6.283; pts.push([cx + Math.cos(a) * rad, cy + Math.sin(a) * rad]); }
+      for (let d = 0; d < 5; d++) { const np = []; pts.forEach((q, i) => { const n = pts[(i + 1) % pts.length]; const mx = (q[0] + n[0]) / 2, my = (q[1] + n[1]) / 2, len = Math.hypot(n[0] - q[0], n[1] - q[1]); np.push(q, [mx + (r() - .5) * len * .55, my + (r() - .5) * len * .55]); }); pts = np; }
+      return pts; };
+    const n = 2 + Math.floor(amt * 3);
+    for (let k = 0; k < n; k++) {
+      const col = p.wash[k % p.wash.length], cx = r() * W, cy = r() * H, rad = (380 + r() * 420) * u;
+      const base = blob(cx, cy, rad);
+      for (let l = 0; l < 14; l++) {
+        const jit = base.map(([x, y]) => [x + (r() - .5) * 26 * u, y + (r() - .5) * 26 * u]);
+        c.beginPath(); jit.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.closePath();
+        c.fillStyle = hexA(col, .022 * amt + .005); c.fill();
+      }
+    }
+    return out;
+  }
+
+  function noiseTiles(seed) { return [0, 1, 2, 3].map(k => { const t = mk(256, 256), tc = t.getContext('2d'), id = tc.createImageData(256, 256), nr = rng(seed + 7 + k * 101);
+    for (let i = 0; i < id.data.length; i += 4) { const v = nr() * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255; } tc.putImageData(id, 0, 0); return t; }); }
+
+  function flecks(o, W, H) {
+    const out = mk(W, H), c = out.getContext('2d'), r = rng(o.seed + 53), gu = o.grunge / 100, u = Math.min(W, H) / 900;
+    if (gu <= 0) return out;
+    for (let i = 0; i < 1100 * gu * (W * H) / (1600 * 900); i++) { const dark = r() < .6; c.fillStyle = dark ? hexA('#1e1a10', .05 + r() * .12 * gu) : hexA('#ffffff', .05 + r() * .15 * gu); c.beginPath(); c.arc(r() * W, r() * H, (r() * r() * 3 + .4) * u, 0, 6.283); c.fill(); }
+    c.strokeStyle = hexA('#1e1a10', .06 * gu); c.lineWidth = .7 * u;
+    for (let i = 0; i < 40 * gu; i++) { const x = r() * W, y = r() * H, l = (20 + r() * 80) * u, a = r() * 3.14; c.beginPath(); c.moveTo(x, y); c.quadraticCurveTo(x + Math.cos(a) * l / 2 + r() * 6, y + Math.sin(a) * l / 2, x + Math.cos(a) * l, y + Math.sin(a) * l); c.stroke(); }
+    return out;
+  }
+
+  /* halftone: printed dots on a 45° screen, their size drifting like ink on paper */
+  function halftone(o, W, H) {
+    const out = mk(W, H), c = out.getContext('2d'), amt = (o.tone || 0) / 100, u = Math.min(W, H) / 900;
+    if (amt <= 0) return out;
+    const r = rng(o.seed + 77), step = (5 + (o.dot ?? 40) / 100 * 16) * u, D = Math.hypot(W, H);
+    const fx = .0015 + r() * .002, fy = .0012 + r() * .002, p1 = r() * 6.3, p2 = r() * 6.3;
+    c.fillStyle = PAL[o.pal].shade; c.translate(W / 2, H / 2); c.rotate(Math.PI / 4);
+    for (let y = -D / 2; y < D / 2; y += step) for (let x = -D / 2; x < D / 2; x += step) {
+      const v = .5 + .25 * Math.sin(x * fx / u + p1) + .25 * Math.cos(y * fy / u + p2);
+      const rad = step * .5 * Math.max(0, v * (.35 + amt * .65) + (r() - .5) * .08);
+      if (rad > .3) { c.beginPath(); c.arc(x, y, rad, 0, 6.283); c.fill(); }
+    }
+    return out;
+  }
+
+  /* a Ground holds the cached layers for one canvas and draws a frame at time t */
+  function Ground(cv, scale) {
+    let key = '', sc, wl, fl, ht, tiles, shade, sharp;
+    this.frame = (o, t) => {
+      const [W0, H0] = ASP[o.asp], W = Math.round(W0 * scale), H = Math.round(H0 * scale);
+      const k = JSON.stringify([o.seed, o.asp, o.pal, o.shapes, o.shade, o.size, o.wash, o.grunge, o.tone, o.dot, scale]);
+      if (k !== key) { key = k; cv.width = W; cv.height = H; sc = scene(o, W, H); wl = wash(o, W, H); fl = flecks(o, W, H); ht = halftone(o, W, H); tiles = noiseTiles(o.seed);
+        const q = .25 + (1 - o.soft / 100) * .2; shade = mk(W * q, H * q); sharp = mk(W * .5, H * .5); }
+      const c = cv.getContext('2d'), p = PAL[o.pal];
+      c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; c.fillStyle = p.bg; c.fillRect(0, 0, W, H);
+      // glow, drifting
+      const g = o.glow / 100;
+      if (g > 0) for (const gl of sc.glows) { const dx = Math.sin(t * .00012 + gl.ph) * W * .04 * (o.sway / 100), dy = Math.cos(t * .0001 + gl.ph) * H * .03 * (o.sway / 100);
+        const x = gl.x * W + dx, y = gl.y * H + dy, rad = Math.max(W, H) * gl.rad, gr = c.createRadialGradient(x, y, 0, x, y, rad);
+        gr.addColorStop(0, hexA(p.glow[gl.c], .75 * g)); gr.addColorStop(1, hexA(p.glow[gl.c], 0)); c.fillStyle = gr; c.fillRect(0, 0, W, H); }
+      // watercolour under the shade
+      if (o.wash > 0) { c.save(); c.globalCompositeOperation = 'multiply'; c.filter = `blur(${Math.round(28 * scale)}px)`; c.drawImage(wl, 0, 0); c.restore(); c.globalCompositeOperation = 'source-over'; }
+      // shade: drawn small and scaled up, which blurs it for free
+      const sh = o.shade / 100;
+      if (sh > 0 && sc.items.length) {
+        for (const [cnv, a] of [[shade, .04 + .42 * sh * sh], [sharp, o.soft < 35 ? .08 * sh * (1 - o.soft / 35) : 0]]) {
+          if (a <= 0) continue;
+          const sc2 = cnv.width / W, sx = cnv.getContext('2d'); sx.setTransform(1, 0, 0, 1, 0, 0); sx.clearRect(0, 0, cnv.width, cnv.height);
+          sx.setTransform(sc2, 0, 0, sc2, 0, 0); sx.fillStyle = p.shade; sx.strokeStyle = p.shade; drawShade(sx, sc, o, t, W, H);
+          c.save(); c.globalCompositeOperation = 'multiply'; c.globalAlpha = a; c.imageSmoothingQuality = 'high';
+          if (cnv === shade) c.filter = `blur(${Math.round((2 + Math.pow(o.soft / 100, 1.4) * 22) * (sc.ls / sc.u) * scale)}px)`;
+          c.drawImage(cnv, 0, 0, W, H); c.restore();
+        }
+      }
+      if (o.tone > 0) { c.save(); c.globalCompositeOperation = 'multiply'; c.globalAlpha = .06 + o.tone / 100 * .22; c.drawImage(ht, 0, 0); c.restore(); }
+      if (o.grunge > 0) c.drawImage(fl, 0, 0);
+      // grain, stepping between four tiles so it breathes
+      const gn = o.grain / 100;
+      if (gn > 0) { const tile = tiles[o.motion ? Math.floor(Math.abs(t) / 110) % 4 : 0];
+        c.save(); c.globalAlpha = .12 * gn + .02; c.globalCompositeOperation = 'overlay'; c.fillStyle = c.createPattern(tile, 'repeat'); c.fillRect(0, 0, W, H); c.restore(); }
+    };
+  }
+
+  const $ = id => document.getElementById(id);
+  const cv = $('cv'), note = $('note');
+  const recipe = () => `hf-ground/${st.pal}/${st.asp}/seed-${st.seed}`;
+  const say = m => { note.textContent = m; };
+  const main = new Ground(cv, .62);
+  let t0 = performance.now(), tFrozen = 0, raf = 0;
+
+  function sync() {
+    $('tag').textContent = recipe();
+    try { localStorage.setItem('hf-grounds3', JSON.stringify(st)); } catch (e) {}
+    document.querySelectorAll('.pre').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === st.id)));
+    document.querySelectorAll('.sw').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === st.pal)));
+    document.querySelectorAll('#asp .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === st.asp)));
+    document.querySelectorAll('#shp .chip').forEach(b => b.setAttribute('aria-pressed', String(st.shapes.includes(b.dataset.k))));
+    LAYERS.forEach(([k]) => { $('r-' + k).value = st[k]; $('o-' + k).textContent = st[k]; });
+    $('motion').textContent = st.motion ? 'Motion on' : 'Motion off'; $('motion').setAttribute('aria-pressed', String(st.motion));
+    if (!st.motion) main.frame(st, tFrozen);
+  }
+  function loop(now) { if (st.motion && !document.hidden) { tFrozen = now - t0; main.frame(st, tFrozen); } raf = requestAnimationFrame(loop); }
+
+  PRESETS.forEach(pr => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'pre'; b.dataset.id = pr.id;
+    const tc = document.createElement('canvas'); b.append(tc);
+    const l = document.createElement('span'); l.innerHTML = `<b>${pr.name}</b>${pr.sub}`; b.append(l);
+    b.addEventListener('click', () => { Object.assign(st, pr, { shapes: pr.shapes.slice() }); sync(); });
+    $('presets').append(b);
+    new Ground(tc, .2).frame(Object.assign({ seed: 4821, motion: false }, pr, { asp: 'wide' }), 0);
+  });
+  SHAPES.forEach(([k, name]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.k = k; b.textContent = name;
+    b.addEventListener('click', () => { const i = st.shapes.indexOf(k); i < 0 ? st.shapes.push(k) : st.shapes.splice(i, 1); st.id = null; sync(); }); $('shp').append(b); });
+  Object.entries(PAL).forEach(([k, p]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'sw'; b.dataset.k = k; b.style.background = p.bg; b.setAttribute('aria-label', p.name); b.title = p.name;
+    b.addEventListener('click', () => { st.pal = k; st.id = null; sync(); }); $('pal').append(b); });
+  Object.entries(ASP).forEach(([k, a]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.k = k; b.textContent = a[2];
+    b.addEventListener('click', () => { st.asp = k; sync(); }); $('asp').append(b); });
+  LAYERS.forEach(([k, name]) => { const row = document.createElement('label'); row.className = 'sl';
+    row.innerHTML = `<span>${name}</span><input type="range" id="r-${k}" min="0" max="100" step="1"><output id="o-${k}"></output>`;
+    row.querySelector('input').addEventListener('input', e => { st[k] = +e.target.value; st.id = null; $('o-' + k).textContent = st[k]; if (!st.motion) main.frame(st, tFrozen); });
+    $('sliders').append(row); });
+
+  $('motion').addEventListener('click', () => { st.motion = !st.motion; if (st.motion) t0 = performance.now() - tFrozen; sync(); });
+  $('shuffle').addEventListener('click', () => { st.seed = Math.floor(Math.random() * 99999); sync(); say('New seed ' + st.seed); });
+  $('copy').addEventListener('click', () => {
+    const txt = JSON.stringify({ name: recipe(), pal: st.pal, asp: st.asp, seed: st.seed, shapes: st.shapes, shade: st.shade, size: st.size, soft: st.soft, glow: st.glow, wash: st.wash, grain: st.grain, tone: st.tone, dot: st.dot, grunge: st.grunge, sway: st.sway });
+    navigator.clipboard.writeText(txt).then(() => say('Recipe copied. Paste it to rebuild this ground exactly.'), () => say(txt));
+  });
+  let dl = null;
+  (async () => { try { dl = await window.claude?.use?.('downloads'); } catch (e) { dl = null; } if (!dl) $('save').hidden = true; })();
+  $('save').addEventListener('click', async () => {
+    if (!dl) return;
+    const big = mk(1, 1); new Ground(big, 2).frame(st, tFrozen);
+    const blob = await new Promise(res => big.toBlob(res, 'image/png'));
+    try { await dl.save({ filename: recipe().replace(/\//g, '-') + '.png', data: blob }); say('Saved.'); }
+    catch (e) { say(e && e.code === 'declined' ? 'Export cancelled.' : 'Export didn’t go through here. Try again in a moment.'); }
+  });
+
+  sync(); main.frame(st, 0); raf = requestAnimationFrame(loop);
+})();
+</script>

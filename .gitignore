@@ -1,3 +1,7 @@
 node_modules/
 audit/shots/
 dist/
+.DS_Store
+.vision/
+audit/
+audit-revamp/

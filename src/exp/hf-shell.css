@@ -1,0 +1,61 @@
+/* ================= HF1 shell · light frame behind, desktop in front, tabs attached ================= */
+html.hf .hf-frame { position: fixed; inset: 0; z-index: 55; pointer-events: none; display: none; }
+html.hf.hf-framed .hf-frame { display: block; }
+html.hf .hf-frame .fr-bg { fill: #f4f2ec; }
+html.hf .hf-frame .fr-sh { fill: none; stroke: rgba(46,40,20,.2); stroke-width: 10; }
+html.hf .hf-frame .fr-edge { fill: none; stroke: rgba(30,33,27,.08); stroke-width: 1; }
+html.hf.hf-qfocus .hf-frame, html.hf.hf-qfocus .hf-top { opacity: 0; transition: opacity .45s var(--hf-ease); pointer-events: none; }
+html.hf .hf-frame, html.hf .hf-top { transition: opacity .45s var(--hf-ease); }
+
+/* header: brand, tabs with icons, goals and you */
+html.hf.hf-framed .hf-top { height: 54px; padding: 0 16px 0 22px; gap: 18px; align-items: flex-end; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+html.hf.hf-framed .hf-top > * { align-self: center; }
+html.hf.hf-framed .hf-navwrap { align-self: flex-end; justify-content: flex-start; height: 45px; }
+html.hf .hf-brand { display: inline-flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 16.5px; font-weight: 600; letter-spacing: -.015em; color: var(--hf-ink); }
+html.hf .hf-logo { display: block; flex: none; }
+html.hf.hf-framed .hf-nav { gap: 2px; height: 45px; padding: 0; border-radius: 0; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+html.hf.hf-framed .hf-nav button { position: relative; height: 45px; padding: 0 16px 1px; gap: 9px; border-radius: 0; background: none !important; color: var(--hf-ink-3); font-size: 15px; font-weight: 450; transition: color .25s var(--hf-ease); }
+html.hf.hf-framed .hf-nav button::before { content: ""; position: absolute; inset: 5px 3px 6px; z-index: -1; border-radius: 11px; background: transparent; transition: background .25s var(--hf-ease); }
+html.hf.hf-framed .hf-nav button:hover { color: var(--hf-ink); }
+html.hf.hf-framed .hf-nav button:hover:not([aria-current="page"])::before { background: rgba(30,33,27,.06); }
+html.hf.hf-framed .hf-nav button[aria-current="page"] { color: var(--hf-ink); font-weight: 500; }
+html.hf.hf-framed .hf-nav button svg { display: block !important; width: 18px; height: 18px; flex: none; fill: currentColor; opacity: .85; }
+html.hf.hf-framed .hf-nav button[aria-current="page"] svg { opacity: 1; color: var(--brand-700); }
+html.hf.hf-framed .hf-nav .hf-need svg { width: 11px !important; height: 11px !important; color: inherit; }
+html.hf.hf-framed .hf-nav button[aria-current="page"] .hf-need .hf-pix rect.on { fill: var(--hf-needs); }
+html.hf.hf-framed .hf-me { background: none; box-shadow: none; padding: 3px; }
+html.hf.hf-framed .hf-me:hover { background: rgba(30,33,27,.05); }
+html.hf .hf-rings i { display: inline-block; will-change: transform; }
+html.hf .hf-ringpop { position: fixed; z-index: 120; pointer-events: none; padding: 3px 8px; border-radius: 10px; background: var(--hf-ink); color: var(--brand-accent); font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+html.hf .gfly { z-index: 120; font-weight: 600; color: var(--hf-gain); text-shadow: 0 6px 18px rgba(63,122,58,.3); will-change: transform; }
+
+/* the desktop's content sits inside the sheet */
+html.hf.hf-framed .hf-ask { bottom: 28px; }
+html.hf.hf-framed .hf-toasts { bottom: 104px; }
+html.hf.hf-framed .lv-ctl { left: 28px; bottom: 30px; }
+html.hf.hf-framed .lv-rail { right: 26px; bottom: 26px; }
+
+/* the queue's full view: only the card and Ask HF1 remain */
+html.hf .stackcol { will-change: transform; }
+html.hf .desk.qfocus .hf-home-l, html.hf .desk.qfocus .tiles, html.hf .desk.qfocus .tile-add { opacity: 0 !important; filter: none !important; transform: none !important; pointer-events: none !important; transition: opacity .4s var(--hf-ease) !important; }
+html.hf .desk:not(.qfocus) .rv-dots { opacity: 0; pointer-events: none; }
+html.hf .rv-dots { transition: opacity .35s var(--hf-ease); }
+
+/* add a widget: quiet */
+html.hf .tile-add { gap: 14px !important; }
+html.hf .tile-add .pl { width: 40px !important; height: 40px !important; border-radius: 50% !important; background: rgba(30,33,27,.06) !important; color: var(--hf-ink-2) !important; box-shadow: none !important; }
+html.hf .tile-add .pl svg { width: 18px; height: 18px; }
+html.hf .tile-add:hover .pl { background: var(--hf-ink) !important; color: var(--hf-cream) !important; }
+
+/* onboarding: only HF1's current message, no replies, no back */
+html.hf .obx .obl.past, html.hf .obx .obl.me { display: none !important; }
+html.hf .obx [data-frback] { display: none !important; }
+
+/* Motion owns these now */
+html.hf .hf-toast { animation: none !important; }
+@media (max-width: 760px) { html.hf .hf-frame { display: none !important; } }
+
+html.hf.hf-framed .hf-top .hf-nav button[aria-current="page"], html.hf.hf-framed .hf-top .hf-nav button[aria-current="page"]:hover { background: transparent !important; color: var(--hf-ink) !important; box-shadow: none !important; }
+html.hf.hf-framed .hf-top .hf-nav .hf-thumb { display: none !important; }
+html.hf #stackcol { transition: transform .7s cubic-bezier(.2,.9,.25,1) !important; }
+html.hf.hf-qfocus #stackcol { transform: translate(var(--qdx, 0px), var(--qdy, 0px)) !important; }

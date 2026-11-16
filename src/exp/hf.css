@@ -582,3 +582,248 @@ html.hf .xp-acts .xa span { max-width: none; }
 html.hf .fb-step.sel { box-shadow: none !important; }
 html.hf .tl-day { box-shadow: none !important; background: none !important; border-radius: 0 !important; }
 html.hf .tl-head .lab { z-index: 2; }
+
+/* ================= third pass: connecting screens ================= */
+/* maps (people, agents, org): nodes were laid out for the small canvas type, keep it there */
+html.hf .world { font-size: 12px; --t-2: 10.5px; --t-1: 11.5px; --t0: 12.5px; --t1: 14px; --fs-xs: 10.5px; --fs-sm: 11.5px; --fs-md: 12.5px; }
+html.hf .world .oc { border-radius: 14px; }
+/* map side widgets sit under the page toolbar */
+html.hf .wstack { top: 72px; max-height: calc(100% - 180px); }
+html.hf .wstack > * { border: 0 !important; border-radius: 22px !important; background: var(--hf-glass) !important; box-shadow: var(--hf-ring), 0 18px 40px -26px rgba(62,52,24,.3) !important; }
+/* search: a solid cream palette over a soft bone scrim */
+html.hf .spot { background: rgba(237,235,228,.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+html.hf .spot-box { background: rgba(251,250,246,.98); border: 0; border-radius: 28px; box-shadow: var(--hf-float); overflow: hidden; }
+html.hf .spot .sg { background: transparent; color: var(--hf-ink-3); font-size: 15px; padding-top: 10px; }
+html.hf .spot-in { border-bottom: 1px solid var(--hf-hair); }
+/* new agent: the name field fills its row */
+html.hf .fld > .ax-in, html.hf .fld > input { align-self: stretch; width: 100%; }
+/* settings: one title, not two; the column centred */
+html.hf .set > h2:first-of-type { display: none; }
+html.hf .set { margin-left: auto; margin-right: auto; }
+/* post composer clears the ask bar */
+html.hf .th-comp { bottom: 96px; background: none; }
+html.hf .th-comp .tc-row { border: 0; border-radius: 26px; background: var(--hf-cream); box-shadow: var(--hf-lift); }
+/* HF1 suggestions can be long sentences: let them wrap inside the pill */
+html.hf .hx-acts button { height: auto; min-height: 36px; padding: 8px 14px; text-align: left; line-height: 1.35; border-radius: 18px; }
+/* side panels: a little more room for step-by-step runs */
+html.hf .panel { width: 380px; }
+@media (max-width: 900px) {
+  html.hf .panel { width: auto; }
+  html.hf[data-hfpage="org"] .db :is(th, td):is(:nth-child(2), :nth-child(4), :nth-child(6)) { display: none; }
+  html.hf[data-hfpage="tools"] .db :is(th, td):is(:nth-child(3), :nth-child(4), :nth-child(5)) { display: none; }
+  html.hf[data-hfpage="flows"] .db td:first-child { min-width: 150px; }
+  html.hf .db td:first-child { min-width: 130px; }
+  html.hf .th-comp { bottom: 92px; }
+  html.hf .wstack { display: none; }
+}
+/* fields: one well style everywhere */
+html.hf .ax-in { border: 0 !important; border-radius: 16px !important; background: var(--hf-well) !important; color: var(--hf-ink); font-size: 16px; padding: 10px 16px; }
+html.hf .ax-in.lg { min-height: 52px; font-size: 18px; }
+html.hf .ax-in.sm { border-radius: 12px !important; font-size: 15px; }
+html.hf .wstack { top: 148px; }
+html.hf .spot .sg { background: none !important; }
+/* a thread brings its own composer: the ask bar steps back */
+html.hf.hf-thread .hf-ask { display: none; }
+html.hf .th-comp { bottom: 0; padding-bottom: 24px; background: linear-gradient(to top, var(--hf-bone) 70%, rgba(237,235,228,0)); }
+@media (max-width: 900px) {
+  html.hf[data-hfpage="flows"] .db :is(th, td):nth-child(n+3), html.hf[data-hfpage="tools"] .db :is(th, td):nth-child(n+3) { display: none; }
+  html.hf[data-hfpage="org"] .db :is(th, td):nth-child(3) { display: none; }
+  html.hf .anw-f { position: static; }
+  html.hf .th-comp { bottom: 0; padding-bottom: 96px; }
+}
+/* onboarding: your replies are bubbles, built steps tick in moss, the one in progress spins */
+html.hf .obl.me { padding: 10px 16px; border-radius: 20px 20px 6px 20px; background: var(--hf-pill); color: var(--hf-ink); text-align: left; font-size: 16px; }
+html.hf .obl.past { color: var(--hf-ink-3); font-size: 16px; }
+html.hf .ob-steps li.done .d { background: var(--hf-moss) !important; }
+html.hf .ob-steps li:not(.done) .d { background: transparent !important; box-shadow: none !important; display: grid; place-items: center; }
+html.hf .ob-steps li:not(.done) { color: var(--hf-ink-3); }
+html.hf .obl.me { background: var(--hf-cream); box-shadow: var(--hf-ring), 0 6px 16px -10px rgba(62,52,24,.25); color: var(--hf-ink-2); }
+html.hf .ob-steps li:not(.done):not(.cur) .d { box-shadow: inset 0 0 0 1.5px rgba(30,33,27,.18) !important; border-radius: 50%; }
+html.hf .ob-steps li.cur { color: var(--hf-ink); }
+/* Skeleton (AffectUI): a widget being built is a quiet card whose bars breathe one sheen */
+html.hf .tile.gen { border: 0 !important; background: var(--hf-glass) !important; box-shadow: var(--hf-ring) !important; }
+html.hf .tile.gen i { position: relative; overflow: hidden; background: rgba(30,33,27,.06) !important; border-radius: 8px; }
+html.hf .tile.gen i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(251,250,246,.75), transparent); translate: -100% 0; animation: hfSheen 1.6s var(--hf-ease) infinite; }
+@keyframes hfSheen { 60%, 100% { translate: 100% 0; } }
+@media (prefers-reduced-motion: reduce) { html.hf .tile.gen i::after { display: none; } }
+/* goal rings and wins: money gained is the one gain green, nothing brighter */
+html.hf .gring .bg { stroke: rgba(30,33,27,.08); }
+html.hf .gring .fg { stroke: var(--hf-olive); }
+html.hf .gring.full .fg { stroke: var(--hf-gain); }
+html.hf .gring.full .bg { stroke: rgba(63,122,58,.14); }
+html.hf :is(.gdelta, .gb-ok, .gnext .trow .v, .wn-out svg.i, .wn-stk svg.i, .dn-stk svg.i) { color: var(--hf-gain); }
+html.hf .gdelta { background: var(--hf-cream); border-color: rgba(63,122,58,.25); }
+html.hf .gs-d i.hit { background: var(--hf-gain); }
+html.hf .pr.high { background: var(--hf-clay); } html.hf .pr.med { background: var(--hf-needs); } html.hf .pr.low { background: var(--hf-sage); }
+html.hf .agx-ring.r-done { border-color: var(--hf-olive); box-shadow: 0 0 0 4px rgba(110,123,62,.16); }
+html.hf .s-review .wk-ring circle { stroke: #8fa476; } html.hf .s-review .wk-st { color: var(--hf-moss); } html.hf .s-review .wk-st > i { background: #8fa476; }
+html.hf .wk-done svg.i, html.hf .lg-dot.ok { color: var(--hf-olive); }
+html.hf .lg-dot.ok { background: var(--hf-olive); } html.hf .lg-dot.run { background: var(--hf-olive); }
+/* contrast: olive and gain darken a step when they carry words; the grey greeting line clears 3:1 */
+html.hf { --accent: #5d6930; --accent-1: #5d6930; --hf-gain: #376f31; }
+html.hf .hf-home .greet-sub { color: #77796d; }
+html.hf .greet small { color: var(--hf-ink-3); }
+/* the moss tile: rings in lime on a faint white track, tabs as a white glass thumb, room for the whole table */
+html.hf .hf-home .tile.hf-hero { height: auto !important; max-height: none !important; }
+html.hf .hf-home .tile.hf-hero .gring .bg { stroke: rgba(255,255,255,.18); }
+html.hf .hf-home .tile.hf-hero .gring .fg { stroke: var(--hf-lime); }
+html.hf .hf-home .tile.hf-hero :is(.vtabs, .seg) { background: rgba(255,255,255,.12) !important; box-shadow: none !important; }
+html.hf .hf-home .tile.hf-hero .hf-thumb.cream { background: rgba(255,255,255,.22); box-shadow: none; }
+html.hf .hf-home .tile.hf-hero :is(.vtabs, .seg) button[aria-pressed="true"], html.hf .hf-home .tile.hf-hero :is(.vtabs, .seg) button[aria-selected="true"] { background: rgba(255,255,255,.22) !important; }
+html.hf .hf-home .tile.hf-hero tr, html.hf .hf-home .tile.hf-hero td { border-color: rgba(255,255,255,.14) !important; }
+html.hf .hf-home .tile.hf-hero .tbtn { background: rgba(255,255,255,.16) !important; border: 0 !important; box-shadow: none !important; }
+html.hf .hf-home .tile.hf-hero .tbtn:hover { background: rgba(255,255,255,.26) !important; }
+html.hf .hf-home .tile.hf-hero .tbar { background: rgba(255,255,255,.16) !important; }
+html.hf .hf-home .tile.hf-hero .tbar i { background: var(--hf-lime) !important; }
+/* the shimmer stays a hint, never washes a name out */
+.hf-shine::after { background-image: linear-gradient(90deg, transparent 42%, rgba(251,250,246,.6) 50%, transparent 58%); }
+
+/* ================= Grounds in the product: shade, grain and wash replace the mesh ================= */
+.hf-ground canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hf-ground i, .hf-ground svg { display: none; }
+html.hf .hf-home .tile.hf-hero { background: var(--hf-hero-ground) center / cover, var(--hf-moss) !important; }
+html.hf .hf-home .tile.hf-hero::after { display: none; }
+
+/* ================= brand tokens: moss is the default; a company swaps this block ================= */
+html.hf {
+  --brand-900: #1f2a14; --brand-700: #3e4a2c; --brand-500: #6e7b3e; --brand-300: #a9b78d;
+  --brand-accent: #d6ec6b; --brand-warm: #f2c7a2; --brand-shade: #5c5a40; --brand-ink: #5d6930;
+  --hf-moss: var(--brand-700); --hf-olive: var(--brand-500); --hf-sage: var(--brand-300); --hf-lime: var(--brand-accent); --hf-peach: var(--brand-warm);
+  --accent: var(--brand-ink); --accent-1: var(--brand-ink);
+}
+/* example of a second brand, ready for when customisation ships (not wired to any UI yet) */
+html.hf[data-brand="harbor"] { --brand-900: #14202e; --brand-700: #2b4157; --brand-500: #4f6f8f; --brand-300: #a7bccd; --brand-accent: #f0c36a; --brand-warm: #e8b8a0; --brand-shade: #3d4a56; --brand-ink: #3f5c78; }
+
+/* ================= pixel mark: replaces dots, halos and spinners ================= */
+.hf-pix { display: inline-block; flex: none; vertical-align: middle; overflow: visible; }
+.hf-pix rect { fill: var(--brand-500); }
+.hf-pix rect.off { opacity: .14; }
+.hf-pix rect.run { opacity: .14; animation: hfPix 1.4s cubic-bezier(.45,0,.55,1) infinite; }
+.hf-pix-needs rect.on, .hf-need .hf-pix rect.on { fill: var(--hf-needs); }
+.hf-pix-needs rect.off { opacity: 0; }
+.hf-pix-done rect { fill: var(--brand-500); }
+html.hf .hf-pix-live rect.run { animation-name: hfPixLive; animation-duration: 1.6s; }
+@keyframes hfPixLive { 0% { opacity: .1; } 25% { opacity: .95; } 70%, 100% { opacity: .1; } }
+@keyframes hfPix { 0%, 100% { opacity: .14; } 30% { opacity: 1; } 60% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .hf-pix rect.run { animation: none; opacity: .7; } }
+/* no more pulsing dots and halos anywhere */
+html.hf :is(.pulse, .ap2-live i, .xp-live, .xp-ud, .live i)::after, html.hf :is(.pulse, .ap2-live i, .xp-live) { animation: none !important; }
+html.hf .ap2-live { display: inline-grid; place-items: center; width: 14px; height: 14px; background: none !important; box-shadow: none !important; }
+html.hf .xp-ud { display: none; }
+html.hf .xp.att .xp-ctx { display: flex; align-items: center; gap: 8px; }
+/* the needs-you mark sits on the Activity label, not floating off it */
+.hf-nav .dot { display: none; }
+.hf-need { display: inline-grid; place-items: center; margin-left: 2px; }
+.hf-nav button[aria-current="page"] .hf-need .hf-pix rect.on { fill: var(--brand-accent); }
+@media (max-width: 900px) { .hf-need { position: absolute; top: 6px; right: 6px; margin: 0; } }
+/* thinking loader and happening-now rows carry the pixel mark */
+.hf-think .hf-pix { width: 16px; height: 16px; }
+html.hf .hf-home .ap2-l li .hf-pix { margin-left: auto; }
+html.hf .ob-steps li.cur .d .hf-pix { width: 14px; height: 14px; }
+
+/* ================= HF1 orb in the brand ================= */
+.hf-orb { background: radial-gradient(circle at 35% 30%, var(--brand-accent) 0%, var(--brand-500) 48%, var(--brand-900) 100%) !important; box-shadow: inset 0 -4px 10px rgba(20,28,10,.45), 0 0 18px rgba(110,123,62,.22) !important; }
+
+/* ================= softer card light ================= */
+html.hf .hf-home .tile::before { background: radial-gradient(520px 400px at var(--mx, 70%) var(--my, 30%), rgba(214,236,107,.1), transparent 72%); transition: opacity .6s ease; }
+
+/* ================= account menu: a cream popover under the avatar ================= */
+html.hf .popm.hf-pop { min-width: 280px; max-width: 320px; padding: 8px; border: 0; border-radius: 22px; background: rgba(251,250,246,.97); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); box-shadow: var(--hf-float); animation: hfIn .2s var(--hf-ease); transform-origin: top right; }
+html.hf .popm button { padding: 10px 12px; border-radius: 14px; font-size: 15px; }
+html.hf .popm button:hover, html.hf .popm button:focus-visible { background: var(--hf-pill); box-shadow: none !important; }
+html.hf .popm .ph, html.hf .popm .pf { font-size: 13px; padding: 8px 12px 4px; color: var(--hf-ink-3); border-top-color: var(--hf-hair); }
+html.hf .popm .ck { color: var(--brand-500); }
+
+/* ================= one HF1 composer: plus · field · mic · send ================= */
+html.hf :is(.tc-row, .hx-in) { display: flex; align-items: center; gap: 4px; min-height: 56px; padding: 6px !important; border: 0 !important; border-radius: 28px !important; background: var(--hf-cream) !important; box-shadow: var(--hf-ring), 0 10px 26px -16px rgba(62,52,24,.35) !important; }
+html.hf .hx-in { background: var(--hf-well) !important; box-shadow: none !important; }
+html.hf :is(.tc-row, .hx-in) input { flex: 1; min-width: 0; padding: 0 8px; font-size: 16px; color: var(--hf-ink); border: 0; background: none; }
+html.hf :is(.tc-b, .hf-cb) { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 50%; color: var(--hf-ink-2); background: transparent; }
+html.hf :is(.tc-b, .hf-cb):hover { background: var(--hf-pill); color: var(--hf-ink); }
+html.hf :is(.tc-b, .hf-cb) svg { fill: currentColor; width: 20px; height: 20px; }
+html.hf .hf-cb[data-on], html.hf .tc-b[aria-pressed="true"] { background: var(--brand-accent); color: var(--brand-900); }
+html.hf :is(.tc-row .hfc-send, .hx-in > button:last-child) { width: 44px !important; height: 44px !important; border-radius: 50% !important; background: var(--hf-ink) !important; color: #fff !important; flex: none; }
+html.hf .th-comp { padding: 16px 0 24px; }
+
+/* ================= HF1 card: controls sit inside the corner ================= */
+html.hf .hx-ctl { top: 14px !important; right: 14px !important; gap: 6px; }
+html.hf .hfx[data-mode="corner"] .hx-corner { padding-top: 22px; }
+html.hf .hx-corner .hx-body { padding-right: 84px; }
+html.hf .hx-ctl.f { top: 24px !important; right: 40px !important; }
+
+/* ================= search: a calm palette ================= */
+html.hf .spot { padding-top: 14vh; }
+html.hf .spot-box { width: 640px; border-radius: 30px; }
+html.hf .spot-in { padding: 16px 18px; gap: 12px; border-bottom: 1px solid var(--hf-hair); }
+html.hf .spot-in input { font-size: 18px; color: var(--hf-ink); }
+html.hf .spot-ctx { padding: 12px 16px 4px; gap: 6px; }
+html.hf .spot-ctx button, html.hf .spot-ctx .chip { height: 32px; padding: 0 12px; border: 0 !important; border-radius: 16px; background: var(--hf-pill); font-size: 14px; }
+html.hf .spot-list { padding: 6px 8px 8px; max-height: 380px; }
+html.hf .spot-list button, html.hf .spot-list [role="option"] { border-radius: 14px; padding: 10px 12px; font-size: 15px; }
+html.hf .spot-list [aria-selected="true"], html.hf .spot-list button:hover { background: var(--hf-pill) !important; }
+html.hf .spot-f { padding: 10px 18px; border-top-color: var(--hf-hair); font-size: 13px; }
+html.hf .spot-f kbd, html.hf .spot kbd { padding: 2px 6px; border: 0; border-radius: 6px; background: var(--hf-pill); font: 500 12px var(--hf-font); }
+
+/* ================= HF1 cursor: an ink arrow and a cream name tag ================= */
+html.hf .agc-arrow { filter: drop-shadow(0 3px 6px rgba(30,33,27,.3)); }
+html.hf .agc-arrow path { fill: var(--hf-ink); stroke: var(--hf-cream); stroke-width: 1.6; }
+html.hf .agc-tag { top: 20px; left: 18px; height: 28px; padding: 0 12px 0 4px; gap: 7px; border-radius: 14px; background: var(--hf-cream); color: var(--hf-ink); font: 500 13px var(--hf-font); box-shadow: var(--hf-ring), 0 8px 20px -8px rgba(62,52,24,.4); }
+html.hf .agc-orb { width: 20px; height: 20px; background: var(--brand-700); box-shadow: none; }
+html.hf .agc::after { border-color: var(--brand-500); }
+html.hf .agx-svg .ln { stroke: var(--brand-500); stroke-width: 1.6; stroke-dasharray: 2 6; stroke-linecap: round; }
+html.hf .agx-svg .end { fill: var(--brand-500); }
+html.hf .agx-ring.r-work { border: 1.5px dashed var(--brand-500); background: rgba(110,123,62,.05); box-shadow: none; animation: none; border-radius: 14px; }
+html.hf .agx-ring.r-ask { border: 1.5px solid var(--hf-needs); box-shadow: 0 0 0 6px rgba(217,138,43,.12); animation: none; border-radius: 22px; }
+
+/* ================= Activity: one column, one header ================= */
+html.hf[data-hfpage="inbox"] .ptool .pt { visibility: hidden; }
+html.hf .xf-top::before { content: "Activity"; display: block; margin: 0 0 14px; font: 500 34px/1.1 var(--hf-font); letter-spacing: -.03em; color: var(--hf-ink); }
+html.hf .ifx { gap: 8px; margin: 0 0 14px; }
+html.hf .ifx-s { height: 48px; padding: 0 16px; border-radius: 24px; background: var(--hf-cream); box-shadow: var(--hf-ring) !important; gap: 10px; }
+html.hf .ifx-s input { font-size: 16px; }
+html.hf .ifx-b { height: 36px; padding: 0 14px; border-radius: 18px; box-shadow: none; background: var(--hf-pill); font-size: 14px; color: var(--hf-ink-2); }
+html.hf .ifx-b:hover { background: var(--hf-pill-h); color: var(--hf-ink); }
+html.hf .ibx-tabs { gap: 2px; padding: 4px; border-radius: 22px; background: var(--hf-pill); display: inline-flex; flex-wrap: wrap; border: 0; }
+html.hf .ibx-tabs button { height: 36px; padding: 0 14px; border-radius: 18px; font-size: 14px; color: var(--hf-ink-3); border: 0 !important; }
+html.hf .ibx-tabs button span { margin-left: 6px; color: var(--hf-ink-4); font-variant-numeric: tabular-nums; }
+html.hf .ibx-tabs button[aria-selected="true"] { background: var(--hf-cream); color: var(--hf-ink); box-shadow: 0 0 0 1px rgba(30,33,27,.06), 0 2px 6px -2px rgba(62,52,24,.2); }
+html.hf .ibx-tabs button[aria-selected="true"]::after { display: none; }
+@media (max-width: 900px) { html.hf .xf-top::before { font-size: 28px; } }
+/* second pass on this round */
+.hf-nav .hf-need svg { display: block !important; width: 11px !important; height: 11px !important; }
+html.hf .xp.att .xp-ctx::before { display: none; }
+html.hf .xp-ctx svg.hf-pix { display: block; }
+html.hf .xf-top { background: transparent !important; box-shadow: none !important; }
+html.hf .xf-bar { top: 8px; margin: 0 -12px; padding: 8px 12px; border: 0 !important; border-radius: 22px; background: rgba(251,250,246,.86) !important; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: var(--hf-ring); z-index: 5; }
+html.hf .th-comp { background: none !important; }
+html.hf .hx-in .hf-cb { width: 40px !important; height: 40px !important; background: transparent !important; color: var(--hf-ink-2) !important; }
+html.hf .hx-in .hf-cb:hover { background: var(--hf-pill) !important; }
+html.hf .hx-in .hf-cb[data-on] { background: var(--brand-accent) !important; color: var(--brand-900) !important; }
+html.hf .hx-in input:focus-visible { box-shadow: none !important; }
+html.hf .spot .sg { border: 0 !important; box-shadow: none !important; margin: 4px 0 0; padding: 8px 12px 4px; font-size: 13px; letter-spacing: .02em; }
+html.hf .agc .hx-bub { top: 58px; left: 18px; }
+
+/* ================= audit: screens not touched before ================= */
+/* follow-up timeline: done steps tick in moss, running ones carry the pixel mark */
+html.hf .tl2 li.done .d { background: var(--brand-700) !important; color: #fff !important; box-shadow: none !important; }
+html.hf .tl2 li .d { box-shadow: inset 0 0 0 1.5px rgba(30,33,27,.16); }
+html.hf .tl2 li.run .d { background: transparent !important; box-shadow: none !important; display: grid; place-items: center; }
+html.hf .tl2::before, html.hf .tl2 li::before { background: var(--hf-hair) !important; }
+/* agent settings: the section list is a quiet pill nav */
+html.hf .set-nav { gap: 2px; }
+html.hf .set-nav a { padding: 9px 14px; border-radius: 16px; font-size: 15px; color: var(--hf-ink-3); }
+html.hf .set-nav a:hover { background: var(--hf-pill); color: var(--hf-ink); }
+html.hf .set-nav a.on { background: var(--hf-pill); color: var(--hf-ink); font-weight: 500; }
+/* after approving: the rest of Home steps back softly instead of blurring into smudges */
+html.hf .desk.qfocus :is(.tiles, .greet, .desk-edit), html.hf .hf-home.qfocus :is(.greet), html.hf .desk.qfocus #actPrev, html.hf .desk.qfocus .hf-home-l { filter: none !important; transform: none !important; opacity: .28 !important; transition: opacity .5s var(--hf-ease); }
+html.hf .desk.qfocus .desk-acts .desk-edit:not([data-qvoice]) { filter: none !important; opacity: .28 !important; }
+/* settings pages line up with the page title */
+html.hf .set { margin-left: 0 !important; }
+/* widget details and file preview: the same HF1 composer */
+html.hf .wz-in { min-height: 56px; height: auto !important; padding: 6px !important; gap: 4px; border-radius: 28px !important; background: var(--hf-cream) !important; box-shadow: var(--hf-ring), 0 10px 26px -16px rgba(62,52,24,.35) !important; }
+html.hf .wz-in .wz-ctx { margin-left: 4px; }
+html.hf .wz-in .hfc-send { width: 44px !important; height: 44px !important; border-radius: 50% !important; }
+html.hf .wz-in .hf-cb { width: 40px; height: 40px; }
+@media (max-width: 900px) { html.hf .th-comp { padding: 12px 0 100px !important; } }
+html.hf .wz-in .wz-ctx { max-width: 34%; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html.hf .wz-in input { min-width: 80px; }
